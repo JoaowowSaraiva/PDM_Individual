@@ -1,6 +1,8 @@
 package pdm.di.ubi.pdm_individual;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -36,39 +38,35 @@ public class Main extends AppCompatActivity {
     Button b_check;
     ConnectionDetector oCd;
     private TextView tvData;
+    private DBAuxiliar oDBAux;
+    private SQLiteDatabase oSQLiteDB;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-
         /** nav bar **/
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mToogle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
-
         mDrawerLayout.addDrawerListener(mToogle);
         mToogle.syncState();
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         /** fim da nav bar **/
-
 
         //check connection teste
         b_check = (Button) findViewById(R.id.b_check);
         oCd = new ConnectionDetector(this);
-
         b_check.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick (View view){
                 if(oCd.isConnected()){
                     Toast.makeText(Main.this, "Connected", Toast.LENGTH_SHORT).show();
-
                 } else {
                     Toast.makeText(Main.this, "Not Connected!", Toast.LENGTH_SHORT).show();
                 }
-
             }
 
 
@@ -89,6 +87,21 @@ public class Main extends AppCompatActivity {
                 new JSONTask().execute("http://www.praiafluvial.pt/wp-json/wp/v2/posts?per_page=100&filter[orderby]=date&order=desc");
             }
         });
+
+
+        oDBAux = new DBAuxiliar(this);
+        oSQLiteDB = oDBAux.getWritableDatabase();
+        System.out.println("TAG SOUT" + " PASSOU NAS INICIALIZAÇÔES");
+
+        ContentValues oCValues = new ContentValues();
+
+        oCValues.put(oDBAux.SLUG_PK, "praia-de-cvl");
+        oCValues.put(oDBAux.IDPOST, new Integer(1));
+        oCValues.put(oDBAux.CONTENT, "Este seria o texto que tem uma carrada de cenas com '+ ~ º ç .");
+        oCValues.put(oDBAux.TITLE, "Titulo Lindo");
+
+        oSQLiteDB.insert(oDBAux.TABLE_POSTS, null, oCValues);
+        System.out.println("asd passou");
 
 
     }
