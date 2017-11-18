@@ -2,6 +2,7 @@ package pdm.di.ubi.pdm_individual;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.support.v4.widget.DrawerLayout;
@@ -74,8 +75,6 @@ public class Main extends AppCompatActivity {
         //fim do botao teste check
 
 
-        //vamos testar o json!!!!!
-
         Button btnHit = (Button) findViewById(R.id.btnHit);
         //ctrl+alt+shift+t field
         tvData = (TextView) findViewById(R.id.tvJsonItem);
@@ -88,23 +87,8 @@ public class Main extends AppCompatActivity {
             }
         });
 
-
-        oDBAux = new DBAuxiliar(this);
-        oSQLiteDB = oDBAux.getWritableDatabase();
-        System.out.println("TAG SOUT" + " PASSOU NAS INICIALIZAÇÔES");
-
-        ContentValues oCValues = new ContentValues();
-
-        oCValues.put(oDBAux.SLUG_PK, "praia-de-cvl");
-        oCValues.put(oDBAux.IDPOST, new Integer(1));
-        oCValues.put(oDBAux.CONTENT, "Este seria o texto que tem uma carrada de cenas com '+ ~ º ç .");
-        oCValues.put(oDBAux.TITLE, "Titulo Lindo");
-
-        oSQLiteDB.insert(oDBAux.TABLE_POSTS, null, oCValues);
-        System.out.println("asd passou");
-
-
     }
+
 
     @Override/**Funcao para nav bar**/
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -160,36 +144,69 @@ public class Main extends AppCompatActivity {
 
                 String teste2 = e.getString("title");
 
-                JSONObject e2 = e.getJSONObject("excerpt");
+                JSONObject e2 = e.getJSONObject("content");
 
                 String teste3 = e2.getString("rendered");
                 String teste="";
                 teste = String.valueOf(json.length());
 
+                teste3 = teste3.replaceAll("<script.*</script>", "");
+                teste3 = teste3.replaceAll("<!--.*-->", "");
+                String sWithProblems = "<p style=" + '"' + "text-align: justify;" + '"' + ">";
+                String sWithProblems2 = "<h2 style=" + '"' + "text-align: justify;" + '"' + ">";
+                String sWithProblems3 = "<h3 style=" + '"' + "text-align: justify;" + '"' + ">";
+
+                String para_teste = "<!--Ola mundo nos estamos aqui http://quickadsense.com/ -->";
+
+                para_teste = para_teste.replaceAll("<!--.*-->", "");
+                System.out.println("PARA_TESTE: " + para_teste);
+
+                //teste3 = teste3.replace(sWithProblems, "");
+                //teste3 = teste3.replace(sWithProblems2, "");
+                //teste3 = teste3.replace(sWithProblems3, "");
+              //  teste3 = teste3.replace("</p>" , "");
+               // teste3 = teste3.replace("</h3>", "");
+                //teste3 = teste3.replace("</h2>", "");
+                //teste3 = teste3.replace("</script>", "");
+                //teste3 = teste3.replace("</div>", "");
+                //https://stackoverflow.com/questions/11255353/java-best-way-to-grab-all-strings-between-two-strings-regex
+
+                System.out.println(teste3);
+
 
                 String nova = new String ();
                 nova = teste3.replace("&hellip;", "..." ); //unicode &#8230; for ...
+                //<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                //nova = teste3.replace("<script async src=" + '"' + "//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" + '"' +"</script>" , "");
+
+                nova = nova.replace("(adsbygoogle = window.adsbygoogle || []).push({});", "");
 
                 xpp.setInput(new StringReader(nova));
                 int eventType = xpp.getEventType();
 
+                String resultado = new String();
+
                 while (eventType != XmlPullParser.END_DOCUMENT) {
                     if(eventType == XmlPullParser.START_DOCUMENT) {
-                        System.out.println("Start document");
+                        System.out.println("");
                     } else if(eventType == XmlPullParser.START_TAG) {
-                        System.out.println("Start tag "+xpp.getName());
+                        System.out.println("");
                     } else if(eventType == XmlPullParser.END_TAG) {
-                        System.out.println("End tag "+xpp.getName());
+                        System.out.println("");
                     } else if(eventType == XmlPullParser.TEXT) {
                         System.out.println("Text "+xpp.getText());
-                        return xpp.getText();
+
+                        resultado = resultado + xpp.getText();
                         //temos q fazer concat na string para ler todas as tags
                     }
                     eventType = xpp.next();
                 }
                 System.out.println("End document");
-                return "ups";
-                //http://www.java2s.com/Code/Java/Development-Class/ReplacealltheoccurencesofHTMLescapestringswiththerespectivecharacters.htm
+                System.out.println("RESULTADOOO: " + resultado);
+
+
+                return resultado;
+
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -239,14 +256,5 @@ public class Main extends AppCompatActivity {
 
         iActvity.putExtra("string1","temos a burra nas coves");
         startActivity(iActvity);
-
-
     }
-
-
-
-
-
-
-
 }

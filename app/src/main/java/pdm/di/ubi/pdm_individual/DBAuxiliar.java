@@ -19,6 +19,7 @@ public class DBAuxiliar extends SQLiteOpenHelper{
     protected static final String COORDINATES = "Coordinates" ;
     protected static final String IMG = "Img";
     protected static final String DATE = "Date";
+    protected static final String EXCERPT = "Excerpt";
 
     //protected static final Blob COLUMN5 = null;
 
@@ -38,6 +39,7 @@ public class DBAuxiliar extends SQLiteOpenHelper{
             TITLE + " VARCHAR(255), " +
             COORDINATES + " TEXT, " +
             IMG + " BLOB, " +
+            EXCERPT + " TEXT, " +
             DATE + " TEXT );" ;
 
     protected static final String AUX_CREATE_TABLE = "" +
@@ -63,3 +65,37 @@ public class DBAuxiliar extends SQLiteOpenHelper{
 
     }
 }
+
+
+
+
+/**
+
+ oDBAux = new DBAuxiliar(this);
+ oSQLiteDB = oDBAux.getWritableDatabase();
+ System.out.println("TAG SOUT" + " PASSOU NAS INICIALIZAÇÔES");
+
+ ContentValues oCValues = new ContentValues();
+
+ oCValues.put(oDBAux.SLUG_PK, "praia-de-cvl1");
+ oCValues.put(oDBAux.IDPOST, new Integer(1));
+ oCValues.put(oDBAux.CONTENT, "Este seria o texto que tem uma carrada de cenas com '+ ~ º ç .");
+ oCValues.put(oDBAux.TITLE, "Titulo Lindo");
+
+ oSQLiteDB.insert(oDBAux.TABLE_POSTS, null, oCValues);
+
+ System.out.println("VAMOSSS!");
+
+ Cursor oCursor;
+ oDBAux = new DBAuxiliar(this);
+ SQLiteDatabase db2 = oDBAux.getWritableDatabase();
+
+ oCursor = db2.rawQuery("SELECT * " + "FROM " + "Posts", null);
+ oCursor.moveToFirst();
+
+ int a =  oCursor.getCount();
+
+ String s = oCursor.getString(0).toString();
+ System.out.println("Resultado: " + s + " " + a);
+
+ **/
