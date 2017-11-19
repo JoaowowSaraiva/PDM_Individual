@@ -7,14 +7,9 @@ package pdm.di.ubi.pdm_individual;
 public class Posts {
 
     String Slugpk, Content, Title, Coordinates, Img, Date, Excerpt;
-    int Id;
+    int Id, Categorie;
 
-
-    public Posts() {
-    }
-
-
-    public Posts(String slugpk, String content, String title, String coordinates, String img, String date, String excerpt, int id) {
+    public Posts(String slugpk, String content, String title, String coordinates, String img, String date, String excerpt, int id, int categorie) {
         Slugpk = slugpk;
         Content = content;
         Title = title;
@@ -23,7 +18,13 @@ public class Posts {
         Date = date;
         Excerpt = excerpt;
         Id = id;
+        Categorie = categorie;
     }
+
+    public Posts() {
+    }
+
+
 
 
     public String getSlugpk() {
@@ -91,18 +92,12 @@ public class Posts {
     }
 
 
-    @Override
-    public String toString() {
-        return "Posts{" +
-                "Slugpk='" + Slugpk + '\'' +
-                ", Content='" + Content + '\'' +
-                ", Title='" + Title + '\'' +
-                ", Coordinates='" + Coordinates + '\'' +
-                ", Img='" + Img + '\'' +
-                ", Date='" + Date + '\'' +
-                ", Excerpt='" + Excerpt + '\'' +
-                ", Id=" + Id +
-                '}';
+    public int getCategorie() {
+        return Categorie;
+    }
+
+    public void setCategorie(int categorie) {
+        Categorie = categorie;
     }
 }
 

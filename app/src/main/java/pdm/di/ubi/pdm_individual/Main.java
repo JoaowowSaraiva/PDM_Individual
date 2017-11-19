@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -103,6 +104,7 @@ public class Main extends AppCompatActivity {
 
     class JSONTask extends AsyncTask<String, String, String >{
 
+        Posts oPosts = new Posts();
 
         @Override
         protected String doInBackground(String... params) {
@@ -128,84 +130,47 @@ public class Main extends AppCompatActivity {
                     buffer.append(line);
                 }
 
-                XmlPullParser xpp;
-                XmlPullParserFactory factory;
 
-                factory = XmlPullParserFactory.newInstance();
-                factory.setNamespaceAware(true);
-                xpp = factory.newPullParser();
+/**
+                Coordinates = coordinates;
+                Img = img;
+                Excerpt = excerpt;
+           **/
+                JSONArray jsonArray = new JSONArray(buffer.toString());
+                String jsonArraySize="";
+                jsonArraySize = String.valueOf(jsonArray.length());
+                int x = 0;
+                for(int i=0; i<jsonArray.length(); i++) {
+                    JSONObject oJsonObject = jsonArray.getJSONObject(i);
 
+                    JSONObject oJsonObjectContent = oJsonObject.getJSONObject("content");
+                    String content = oJsonObjectContent.getString("rendered");
 
-                JSONArray json = new JSONArray(buffer.toString());
+                    JSONObject oJsonTitle = oJsonObject.getJSONObject("title");
+                    String title = oJsonTitle.getString("rendered");
 
+                    String date = oJsonObject.getString("date");
+                    String slug = oJsonObject.getString("slug");
 
-                JSONObject e = json.getJSONObject(0);
-
-
-                String teste2 = e.getString("title");
-
-                JSONObject e2 = e.getJSONObject("content");
-
-                String teste3 = e2.getString("rendered");
-                String teste="";
-                teste = String.valueOf(json.length());
-
-                teste3 = teste3.replaceAll("<script.*</script>", "");
-                teste3 = teste3.replaceAll("<!--.*-->", "");
-                String sWithProblems = "<p style=" + '"' + "text-align: justify;" + '"' + ">";
-                String sWithProblems2 = "<h2 style=" + '"' + "text-align: justify;" + '"' + ">";
-                String sWithProblems3 = "<h3 style=" + '"' + "text-align: justify;" + '"' + ">";
-
-                String para_teste = "<!--Ola mundo nos estamos aqui http://quickadsense.com/ -->";
-
-                para_teste = para_teste.replaceAll("<!--.*-->", "");
-                System.out.println("PARA_TESTE: " + para_teste);
-
-                //teste3 = teste3.replace(sWithProblems, "");
-                //teste3 = teste3.replace(sWithProblems2, "");
-                //teste3 = teste3.replace(sWithProblems3, "");
-              //  teste3 = teste3.replace("</p>" , "");
-               // teste3 = teste3.replace("</h3>", "");
-                //teste3 = teste3.replace("</h2>", "");
-                //teste3 = teste3.replace("</script>", "");
-                //teste3 = teste3.replace("</div>", "");
-                //https://stackoverflow.com/questions/11255353/java-best-way-to-grab-all-strings-between-two-strings-regex
-
-                System.out.println(teste3);
+                    JSONObject oJsonExcerpt = oJsonObject.getJSONObject("excerpt");
+                    String excerpt = oJsonExcerpt.getString("rendered");
 
 
-                String nova = new String ();
-                nova = teste3.replace("&hellip;", "..." ); //unicode &#8230; for ...
-                //<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                //nova = teste3.replace("<script async src=" + '"' + "//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" + '"' +"</script>" , "");
+                    JSONArray oJsonArrayCategories = oJsonObject.getJSONArray("categories");
+                    int categories = oJsonArrayCategories.getInt(0);
+                    int id = oJsonObject.getInt("id");
 
-                nova = nova.replace("(adsbygoogle = window.adsbygoogle || []).push({});", "");
+                    //parsing
+                    Aux oParsing = new Aux();
+                    content = oParsing.parseContent(content);
+                    date = oParsing.parseDate(date);
+                    excerpt = oParsing.parseExcerpt(excerpt);
 
-                xpp.setInput(new StringReader(nova));
-                int eventType = xpp.getEventType();
 
-                String resultado = new String();
+                   // System.out.println("POST FULL: " + "TITLE: " + title + "DATE: " + date + "SLUG: " + slug + "Categories: " + categories + "Id: " + id + "Excerpt: " + excerpt + "Content: " + content);
 
-                while (eventType != XmlPullParser.END_DOCUMENT) {
-                    if(eventType == XmlPullParser.START_DOCUMENT) {
-                        System.out.println("");
-                    } else if(eventType == XmlPullParser.START_TAG) {
-                        System.out.println("");
-                    } else if(eventType == XmlPullParser.END_TAG) {
-                        System.out.println("");
-                    } else if(eventType == XmlPullParser.TEXT) {
-                        System.out.println("Text "+xpp.getText());
-
-                        resultado = resultado + xpp.getText();
-                        //temos q fazer concat na string para ler todas as tags
-                    }
-                    eventType = xpp.next();
                 }
-                System.out.println("End document");
-                System.out.println("RESULTADOOO: " + resultado);
-
-
-                return resultado;
+                    return null;
 
 
             } catch (MalformedURLException e) {
