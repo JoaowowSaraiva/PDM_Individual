@@ -99,6 +99,21 @@ public class Posts {
     public void setCategorie(int categorie) {
         Categorie = categorie;
     }
+
+
+    @Override
+    public String toString() {
+        return "Posts{" +
+                "Id='" + Id + '\'' +
+                ", Title='" + Title + '\'' +
+                ", Excerpt='" + Excerpt + '\'' +
+                ", Date='" + Date + '\'' +
+                ", Content='" + Content + '\'' +
+                ", Categorie='" + Categorie + '\'' +
+                ", Img='" + Img + '\'' +
+                ", Coordinates=" + Coordinates +
+                ", SlugPK=" + Slugpk +
+                '}' + '\n';
+    }
+
 }
-
-

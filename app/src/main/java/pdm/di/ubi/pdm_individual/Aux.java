@@ -79,7 +79,7 @@ public class Aux{
         while (eventType != XmlPullParser.END_DOCUMENT) {
             if(eventType == XmlPullParser.TEXT) {;
                 excerpt_result = excerpt_result + xpp.getText();
-                System.out.println(excerpt_result);
+                //System.out.println(excerpt_result);
                 //temos q fazer concat na string para ler todas as tags
             }
             eventType = xpp.next();

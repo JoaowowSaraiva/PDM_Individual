@@ -31,6 +31,7 @@ import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class Main extends AppCompatActivity {
 
@@ -102,12 +103,14 @@ public class Main extends AppCompatActivity {
     }
 
 
-    class JSONTask extends AsyncTask<String, String, String >{
+    class JSONTask extends AsyncTask<String, String, ArrayList<Posts> >{
 
-        Posts oPosts = new Posts();
+
+        ArrayList<Posts> aPosts = new ArrayList<Posts>();
+        ArrayList<Posts> aPosts33 = new ArrayList<Posts>();
 
         @Override
-        protected String doInBackground(String... params) {
+        protected ArrayList<Posts> doInBackground(String... params) {
 
             HttpURLConnection connection=null;
             BufferedReader reader = null;
@@ -132,15 +135,18 @@ public class Main extends AppCompatActivity {
 
 
 /**
+ *              Falta tratar das coordenadas e das img
+ *
                 Coordinates = coordinates;
                 Img = img;
-                Excerpt = excerpt;
            **/
                 JSONArray jsonArray = new JSONArray(buffer.toString());
                 String jsonArraySize="";
                 jsonArraySize = String.valueOf(jsonArray.length());
                 int x = 0;
+                int y=0;
                 for(int i=0; i<jsonArray.length(); i++) {
+                    Posts oPosts = new Posts();
                     JSONObject oJsonObject = jsonArray.getJSONObject(i);
 
                     JSONObject oJsonObjectContent = oJsonObject.getJSONObject("content");
@@ -160,6 +166,7 @@ public class Main extends AppCompatActivity {
                     int categories = oJsonArrayCategories.getInt(0);
                     int id = oJsonObject.getInt("id");
 
+
                     //parsing
                     Aux oParsing = new Aux();
                     content = oParsing.parseContent(content);
@@ -169,8 +176,28 @@ public class Main extends AppCompatActivity {
 
                    // System.out.println("POST FULL: " + "TITLE: " + title + "DATE: " + date + "SLUG: " + slug + "Categories: " + categories + "Id: " + id + "Excerpt: " + excerpt + "Content: " + content);
 
+                    oPosts.setCategorie(categories);
+                    oPosts.setContent(content);
+                    oPosts.setExcerpt(excerpt);
+                    oPosts.setDate(date);
+                    oPosts.setId(id);
+                    oPosts.setSlugpk(slug);
+                    oPosts.setTitle(title);
+                    oPosts.setCoordinates(null);
+                    oPosts.setImg(null);
+
+                    boolean b = false;
+                    if(categories!=33)
+                      b = aPosts.add(oPosts);
+
+                    if(b==false && categories!=33)
+                        System.out.println("Erro Insert");
+                    y++;
                 }
-                    return null;
+
+                System.out.println(aPosts.toString());
+                System.out.println("Yaqui:fim " + y);
+                    return aPosts;
 
 
             } catch (MalformedURLException e) {
@@ -200,9 +227,9 @@ public class Main extends AppCompatActivity {
         }
         //ja n devo precisar disto
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(ArrayList<Posts> result) {
             super.onPostExecute(result);
-            tvData.setText(result);
+
 
         }
     }
