@@ -1,11 +1,14 @@
 package pdm.di.ubi.pdm_individual;
 
+import android.database.sqlite.SQLiteDatabase;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 
 /**
  * Created by saraiva on 16-11-2017.
@@ -87,9 +90,6 @@ public class Aux{
 
         return excerpt_result;
     }
-
-
-
 
     String parseDate (String date){
 

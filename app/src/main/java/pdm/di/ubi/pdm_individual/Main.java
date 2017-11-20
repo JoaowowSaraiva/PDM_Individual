@@ -1,6 +1,7 @@
 package pdm.di.ubi.pdm_individual;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -41,7 +42,7 @@ public class Main extends AppCompatActivity {
     Button b_check;
     ConnectionDetector oCd;
     private TextView tvData;
-    private DBAuxiliar oDBAux;
+    public DBAuxiliar oDBAux = new DBAuxiliar(this);
     private SQLiteDatabase oSQLiteDB;
 
 
@@ -49,6 +50,7 @@ public class Main extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
 
         /** nav bar **/
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -183,14 +185,14 @@ public class Main extends AppCompatActivity {
                     oPosts.setId(id);
                     oPosts.setSlugpk(slug);
                     oPosts.setTitle(title);
-                    oPosts.setCoordinates(null);
-                    oPosts.setImg(null);
+                    oPosts.setCoordinates("");
+                    oPosts.setImg("");
 
                     boolean b = false;
-                    if(categories!=33)
+                   // if(categories!=33)
                       b = aPosts.add(oPosts);
 
-                    if(b==false && categories!=33)
+                    if(b==false/** && categories!=33 **/)
                         System.out.println("Erro Insert");
                     y++;
                 }
@@ -229,6 +231,19 @@ public class Main extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<Posts> result) {
             super.onPostExecute(result);
+
+
+            boolean flag=false;
+
+
+            System.out.println("EXECUTING onPostExecute!");
+            flag = oDBAux.insertArrayPosts(result);
+            System.out.println("LEAVEING FUNC");
+                if(flag == true)
+                    System.out.println("A MIRACLE HAPPENNED!!!!");
+                if(flag== false)
+                    System.out.println("Works fine (chrash)");
+
 
 
         }
