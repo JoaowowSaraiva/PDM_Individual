@@ -42,7 +42,9 @@
             app:layout_constraintHorizontal_bias="0.851" />
 
         <Button
+
             android:id="@+id/bmainPage"
+            android:onClick="startNewActivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Bora Lá"
@@ -52,7 +54,10 @@
             app:layout_constraintRight_toRightOf="parent"
             tools:layout_constraintLeft_creator="1"
             android:layout_marginBottom="176dp"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            app:layout_constraintLeft_toLeftOf="parent"
+
+
+            />
 
 
     </android.support.constraint.ConstraintLayout>
