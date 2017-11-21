@@ -3,11 +3,13 @@ package pdm.di.ubi.pdm_individual;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -77,7 +79,7 @@ public class Main extends AppCompatActivity {
 
         Button btnHit = (Button) findViewById(R.id.btnHit);
         //ctrl+alt+shift+t field
-        tvData = (TextView) findViewById(R.id.tvJsonItem);
+        //tvData = (TextView) findViewById(R.id.tvJsonItem);
 /**
 
         JSONTask jk = new JSONTask();
