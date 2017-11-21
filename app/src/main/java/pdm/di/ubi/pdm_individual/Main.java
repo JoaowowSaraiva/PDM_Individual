@@ -1,12 +1,8 @@
 
 package pdm.di.ubi.pdm_individual;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,29 +11,22 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.lang.reflect.Array;
+
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 
 public class Main extends AppCompatActivity {
@@ -48,7 +37,7 @@ public class Main extends AppCompatActivity {
     Button b_check;
     ConnectionDetector oCd;
     private TextView tvData;
-    private DBAuxiliar oDBAux = new DBAuxiliar(this);
+    private DBAuxiliar oDBAux;
     private SQLiteDatabase oSQLiteDB;
 
 
@@ -56,6 +45,8 @@ public class Main extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        oDBAux = new DBAuxiliar(this);
+
 
         /** nav bar **/
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -103,6 +94,8 @@ public class Main extends AppCompatActivity {
         image.setImageBitmap(bMap);
 
 **/
+
+
         btnHit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -163,26 +156,26 @@ public class Main extends AppCompatActivity {
                 JSONArray jsonArray = new JSONArray(buffer.toString());
                 String jsonArraySize="";
                 jsonArraySize = String.valueOf(jsonArray.length());
+
                 int x = 0;
                 int y=0;
-                String marota ="";
+                String coordinatesURL ="";
                 Aux aux2 = new Aux();
+
                 for(int i=0; i<jsonArray.length(); i++) {
                     Posts oPosts = new Posts();
                     JSONObject oJsonObject = jsonArray.getJSONObject(i);
 
                     JSONObject oJsonObjectContent = oJsonObject.getJSONObject("content");
                     String content = oJsonObjectContent.getString("rendered");
-                    if(x==0){
-                        x++;
-                        marota = aux2.getIMGURL(content);
-                    }
+
+                    coordinatesURL = aux2.getCoordinatesURL(content);
+
 
                     JSONObject oJsonTitle = oJsonObject.getJSONObject("title");
                     String title = oJsonTitle.getString("rendered");
 
                     String date = oJsonObject.getString("date");
-                    String slug = oJsonObject.getString("slug");
 
                     JSONObject oJsonExcerpt = oJsonObject.getJSONObject("excerpt");
                     String excerpt = oJsonExcerpt.getString("rendered");
@@ -200,16 +193,13 @@ public class Main extends AppCompatActivity {
                     excerpt = oParsing.parseExcerpt(excerpt);
 
 
-                    // System.out.println("POST FULL: " + "TITLE: " + title + "DATE: " + date + "SLUG: " + slug + "Categories: " + categories + "Id: " + id + "Excerpt: " + excerpt + "Content: " + content);
-
                     oPosts.setCategorie(categories);
                     oPosts.setContent(content);
                     oPosts.setExcerpt(excerpt);
                     oPosts.setDate(date);
                     oPosts.setId(id);
-                    oPosts.setSlugpk(slug);
                     oPosts.setTitle(title);
-                    oPosts.setCoordinates(null);
+                    oPosts.setCoordinates(coordinatesURL);
                     oPosts.setImg(null);
 
                     boolean b = false;
@@ -219,10 +209,11 @@ public class Main extends AppCompatActivity {
                     if(b==false)
                         System.out.println("Erro Insert");
                     y++;
+                    System.out.println(content);
                 }
 
-                System.out.println("URL: " + marota);
-                System.out.println(aPosts.toString());
+              //  System.out.println("URLCOORDENADAS: " + coordinatesURL);
+              //  System.out.println(aPosts.toString())
                 System.out.println("Yaqui:fim " + y);
 
 
@@ -263,11 +254,9 @@ public class Main extends AppCompatActivity {
             boolean flag=false;
 
 
-
-
             System.out.println("EXECUTING onPostExecute!");
             flag = oDBAux.insertArrayPosts(result);
-            System.out.println("LEAVEING FUNC");
+            System.out.println("LEAVEVING FUNC");
             if(flag == true)
                 System.out.println("A MIRACLE HAPPENNED!!!!");
             if(flag== false)
@@ -310,23 +299,5 @@ public class Main extends AppCompatActivity {
 **/
     }
 
-
-
-
-
-    public void startActivity (View v){
-
-        Intent iActvity = new Intent(this, Activity2.class);
-
-        //execute("http://www.praiafluvial.pt/wp-json/wp/v2/posts?per_page=1")
-        // JSONTask jk = new JSONTask();
-        //String result = "ui e isto passa?";
-        //String result = jk.doInBackground("http://www.praiafluvial.pt/wp-json/wp/v2/posts?per_page=1");
-
-
-
-        iActvity.putExtra("string1","temos a burra nas coves");
-        startActivity(iActvity);
-    }
 }
 

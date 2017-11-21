@@ -36,7 +36,6 @@ public class Aux{
         factory.setNamespaceAware(true);
         xpp = factory.newPullParser();
 
-
         content = content.replace("&nbsp;", " ");
         content = content.replace("&hellip;", "... " );//unicode &#8230; for ...
         content = content.replaceAll("<script.*</script>", "");
@@ -44,7 +43,8 @@ public class Aux{
         content = content.replaceAll("<iframe.*</iframe>", "");
 
         content = content.replace("(adsbygoogle = window.adsbygoogle || []).push({});", "");
-
+        content = content.replace("Onde ficar", "");
+        content = content.replace("Onde Ficar" ,"");
 
         xpp.setInput(new StringReader(content));
         int eventType = xpp.getEventType();
@@ -104,6 +104,28 @@ public class Aux{
         date = date.replace("T", " ");
         return date;
 
+    }
+
+
+    public String getCoordinatesURL (String content){
+        String result="";
+        Pattern pattern = Pattern.compile("<strong>Coordenadas GPS:<\\/strong> <a href=\"\\S*\"");
+        Matcher matcher = pattern.matcher(content);
+
+        if(matcher.find()){
+            String strongTag = matcher.group(0);
+            Pattern pattern1 = Pattern.compile("href=\"\\S*\"");
+            Matcher matcher1 = pattern1.matcher(strongTag);
+                if(matcher1.find()){
+                    String hrefTag = matcher1.group(0);
+                    result = hrefTag.replace("href=" + '"', "");
+                    result = result.replace(""+'"',"");
+
+                    return result;
+                }
+        }
+
+        return "";
     }
 
    public String getIMGURL(String content){
@@ -191,6 +213,13 @@ public class Aux{
  }
 
 
+ **/
 
+/**
+
+
+ Intent intent = new Intent(Intent.ACTION_VIEW);
+ intent.setData(Uri.parse("http://www.stackoverflow.com"));
+ startActivity(intent);
 
  **/

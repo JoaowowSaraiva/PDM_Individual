@@ -1,5 +1,13 @@
 <resources>
-    <string name="app_name">PDM_Individual</string>
+    <string name="app_name">Pequenos Paraísos</string>
+    <string name="main_title">CONHEÇA AS PRAIAS FLUVIAIS PORTUGUESAS</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="Home">HOME</string>
+    <string name="PraiasFluviaisCentro">PRAIAS FLUVIAIS CENTRO</string>
+    <string name="PraiasFluviaisNorte">PRAIAS FLUVIAIS NORTE</string>
+    <string name="PraiasFluviaisSul">PRAIAS FLUVIAIS SUL</string>
+    <string name="Açores">AÇORES</string>
+    <string name="Madeira">MADEIRA</string>
+    <string name="Destaques">DESTAQUES</string>
 </resources>

@@ -15,7 +15,6 @@ public class DBAuxiliar extends SQLiteOpenHelper{
     private static final String DATABASE_NAME = "Maravilha" ;
     //tabela dos posts
     protected static final String TABLE_POSTS = "Posts" ;
-    protected static final String SLUG_PK = "Slugpk" ; //n tem utf-8, so etras e -
     protected static final String IDPOST   = "Id";
     protected static final String CONTENT = "Content" ;
     protected static final String TITLE = "Title" ;
@@ -34,11 +33,9 @@ public class DBAuxiliar extends SQLiteOpenHelper{
     protected static final String JSON_SIZE = "Jsonsize";
 
 
-
     protected static final String POSTS_CREATE_TABLE = "" +
             "CREATE TABLE " + TABLE_POSTS + " (" +
-            SLUG_PK + " VARCHAR(255) PRIMARY KEY, " +
-            IDPOST + " INT, " +
+            IDPOST + " INT PRIMARY KEY, " +
             CONTENT + " TEXT, " +
             TITLE + " VARCHAR(255), " +
             COORDINATES + " TEXT, " +
@@ -75,19 +72,17 @@ public class DBAuxiliar extends SQLiteOpenHelper{
         System.out.println("WE ARRIVED insertArrayPosts");
         SQLiteDatabase oSQLiteDB = this.getWritableDatabase();
 
-
         for(int i =0; i<oPosts.size();i++){//COMO TESTAR SE ELE TA A INSERIR BEM OU N?
             ContentValues oCValues = new ContentValues();
                 if(this.checkExistsPost(oPosts.get(i).getId())==true)
                     continue;
-            oCValues.put(SLUG_PK, oPosts.get(i).getSlugpk());
             oCValues.put(CONTENT, oPosts.get(i).getContent());
             oCValues.put(TITLE, oPosts.get(i).getTitle());
             oCValues.put(IDPOST, oPosts.get(i).getId());
             oCValues.put(DATE, oPosts.get(i).getDate());
             oCValues.put(EXCERPT, oPosts.get(i).getExcerpt());
             oCValues.put(CATEGORIE, oPosts.get(i).getCategorie());
-            oCValues.put(COORDINATES, "");
+            oCValues.put(COORDINATES, oPosts.get(i).getCoordinates());
             oCValues.put(IMG, "");
 
             long flag=0;

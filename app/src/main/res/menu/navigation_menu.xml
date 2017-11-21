@@ -1,13 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/new_account"
-        android:title="My Account" />
 
-    <item android:id="@+id/new_settings"
-        android:title="Settings" />
 
-    <item android:id="@+id/nav_logout"
-        android:title="Logout" />
+    <item android:id="@+id/Home"
+        android:title="@string/Home"
+        />
+
+    <item android:id="@+id/PraiasFluviaisNorte"
+        android:title="@string/PraiasFluviaisNorte" />
+
+    <item android:id="@+id/PraiasFluviaisCentro"
+        android:title="@string/PraiasFluviaisCentro" />
+
+    <item android:id="@+id/PraiasFluviaisSul"
+        android:title="@string/PraiasFluviaisSul"/>
+
+    <item android:id="@+id/Acores"
+        android:title="@string/Açores" />
+
+    <item android:id="@+id/Madeira"
+        android:title="@string/Madeira"
+        />
+    <item android:id="@+id/Destaques"
+        android:title="@string/Destaques"
+        />
+
 
 </menu>
