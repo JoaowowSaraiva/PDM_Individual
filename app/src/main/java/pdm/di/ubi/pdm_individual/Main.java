@@ -1,10 +1,12 @@
+
 package pdm.di.ubi.pdm_individual;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,6 +15,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +26,9 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -32,6 +37,7 @@ import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 public class Main extends AppCompatActivity {
@@ -42,7 +48,7 @@ public class Main extends AppCompatActivity {
     Button b_check;
     ConnectionDetector oCd;
     private TextView tvData;
-    public DBAuxiliar oDBAux = new DBAuxiliar(this);
+    private DBAuxiliar oDBAux = new DBAuxiliar(this);
     private SQLiteDatabase oSQLiteDB;
 
 
@@ -50,7 +56,6 @@ public class Main extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
 
         /** nav bar **/
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -82,8 +87,22 @@ public class Main extends AppCompatActivity {
         Button btnHit = (Button) findViewById(R.id.btnHit);
         //ctrl+alt+shift+t field
         tvData = (TextView) findViewById(R.id.tvJsonItem);
+/**
 
+        JSONTask jk = new JSONTask();
+        String img = "http://www.praiafluvial.pt/wp-content/uploads/2017/11/Praia-Fluvial-ana-de-aviz-3-2.jpg";
+        byte[] b = new byte[500];
+        try {
+            b = jk.getImgFromUrl(img);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
+        ImageView image = (ImageView) findViewById(R.id.imgid);
+        Bitmap bMap = BitmapFactory.decodeByteArray(b, 0, b.length);
+        image.setImageBitmap(bMap);
+
+**/
         btnHit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,7 +128,6 @@ public class Main extends AppCompatActivity {
 
 
         ArrayList<Posts> aPosts = new ArrayList<Posts>();
-        ArrayList<Posts> aPosts33 = new ArrayList<Posts>();
 
         @Override
         protected ArrayList<Posts> doInBackground(String... params) {
@@ -139,20 +157,26 @@ public class Main extends AppCompatActivity {
 /**
  *              Falta tratar das coordenadas e das img
  *
-                Coordinates = coordinates;
-                Img = img;
-           **/
+ Coordinates = coordinates;
+ Img = img;
+ **/
                 JSONArray jsonArray = new JSONArray(buffer.toString());
                 String jsonArraySize="";
                 jsonArraySize = String.valueOf(jsonArray.length());
                 int x = 0;
                 int y=0;
+                String marota ="";
+                Aux aux2 = new Aux();
                 for(int i=0; i<jsonArray.length(); i++) {
                     Posts oPosts = new Posts();
                     JSONObject oJsonObject = jsonArray.getJSONObject(i);
 
                     JSONObject oJsonObjectContent = oJsonObject.getJSONObject("content");
                     String content = oJsonObjectContent.getString("rendered");
+                    if(x==0){
+                        x++;
+                        marota = aux2.getIMGURL(content);
+                    }
 
                     JSONObject oJsonTitle = oJsonObject.getJSONObject("title");
                     String title = oJsonTitle.getString("rendered");
@@ -176,7 +200,7 @@ public class Main extends AppCompatActivity {
                     excerpt = oParsing.parseExcerpt(excerpt);
 
 
-                   // System.out.println("POST FULL: " + "TITLE: " + title + "DATE: " + date + "SLUG: " + slug + "Categories: " + categories + "Id: " + id + "Excerpt: " + excerpt + "Content: " + content);
+                    // System.out.println("POST FULL: " + "TITLE: " + title + "DATE: " + date + "SLUG: " + slug + "Categories: " + categories + "Id: " + id + "Excerpt: " + excerpt + "Content: " + content);
 
                     oPosts.setCategorie(categories);
                     oPosts.setContent(content);
@@ -185,21 +209,24 @@ public class Main extends AppCompatActivity {
                     oPosts.setId(id);
                     oPosts.setSlugpk(slug);
                     oPosts.setTitle(title);
-                    oPosts.setCoordinates("");
-                    oPosts.setImg("");
+                    oPosts.setCoordinates(null);
+                    oPosts.setImg(null);
 
                     boolean b = false;
-                   // if(categories!=33)
-                      b = aPosts.add(oPosts);
 
-                    if(b==false/** && categories!=33 **/)
+                        b = aPosts.add(oPosts);
+
+                    if(b==false)
                         System.out.println("Erro Insert");
                     y++;
                 }
 
+                System.out.println("URL: " + marota);
                 System.out.println(aPosts.toString());
                 System.out.println("Yaqui:fim " + y);
-                    return aPosts;
+
+
+                return aPosts;
 
 
             } catch (MalformedURLException e) {
@@ -236,18 +263,55 @@ public class Main extends AppCompatActivity {
             boolean flag=false;
 
 
+
+
             System.out.println("EXECUTING onPostExecute!");
             flag = oDBAux.insertArrayPosts(result);
             System.out.println("LEAVEING FUNC");
-                if(flag == true)
-                    System.out.println("A MIRACLE HAPPENNED!!!!");
-                if(flag== false)
-                    System.out.println("Works fine (chrash)");
+            if(flag == true)
+                System.out.println("A MIRACLE HAPPENNED!!!!");
+            if(flag== false)
+                System.out.println("Works fine (crash!)");
+
+
+
+
 
 
 
         }
+
+/**
+        public byte[] getImgFromUrl (String url) throws IOException {
+
+            URL imageUrl = new URL(url);
+            URLConnection urlConnection = imageUrl.openConnection();
+
+            InputStream is = urlConnection.getInputStream();
+            BufferedInputStream bis = new BufferedInputStream(is);
+
+            ByteArrayOutputStream baf = new ByteArrayOutputStream();
+            byte[] data = new byte[500];
+            int current = 0;
+
+            while ((current = bis.read()) != -1) {
+                //baf.append((byte) current);
+                baf.write(data, 0, current);
+
+            }
+
+            return baf.toByteArray();
+
+
+
+
+        }
+
+**/
     }
+
+
+
 
 
     public void startActivity (View v){
@@ -255,7 +319,7 @@ public class Main extends AppCompatActivity {
         Intent iActvity = new Intent(this, Activity2.class);
 
         //execute("http://www.praiafluvial.pt/wp-json/wp/v2/posts?per_page=1")
-       // JSONTask jk = new JSONTask();
+        // JSONTask jk = new JSONTask();
         //String result = "ui e isto passa?";
         //String result = jk.doInBackground("http://www.praiafluvial.pt/wp-json/wp/v2/posts?per_page=1");
 
@@ -265,3 +329,4 @@ public class Main extends AppCompatActivity {
         startActivity(iActvity);
     }
 }
+

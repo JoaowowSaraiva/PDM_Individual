@@ -6,9 +6,17 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by saraiva on 16-11-2017.
@@ -19,7 +27,7 @@ public class Aux{
     public Aux() {
     }
 
-    String parseContent (String content) throws XmlPullParserException, IOException {
+    public String parseContent (String content) throws XmlPullParserException, IOException {
 
         XmlPullParser xpp;
         XmlPullParserFactory factory;
@@ -65,7 +73,7 @@ public class Aux{
     }
 
 
-    String parseExcerpt(String excerpt) throws XmlPullParserException, IOException {
+    public String parseExcerpt(String excerpt) throws XmlPullParserException, IOException {
 
         excerpt = excerpt.replace("&hellip;", "... ");
         excerpt = excerpt.replace("&nbsp;" , " ");
@@ -97,6 +105,58 @@ public class Aux{
         return date;
 
     }
+
+   public String getIMGURL(String content){
+        String imgURL="";
+        Pattern pattern = Pattern.compile("<img.*/>");
+        Matcher matcher = pattern.matcher(content);
+
+        if(matcher.find()){
+            String imgTag = matcher.group(0);
+            Pattern pattern1 = Pattern.compile("src=\"\\S*\"");
+            Matcher matcher1 = pattern1.matcher(imgTag);
+                if(matcher1.find()){
+
+                    String srcTag = matcher1.group(0);
+                    imgURL = srcTag.replace("src=" + '"', "");
+                    imgURL = imgURL.replace(""+'"',"");
+
+                    return imgURL;
+
+                }
+
+        }
+
+        return "empty";
+    }
+
+
+
+    public byte[] getImgFromUrl (String url) throws IOException {
+
+            URL imageUrl = new URL(url);
+            URLConnection urlConnection = imageUrl.openConnection();
+
+            InputStream is = urlConnection.getInputStream();
+            BufferedInputStream bis = new BufferedInputStream(is);
+
+            ByteArrayOutputStream baf = new ByteArrayOutputStream();
+            byte[] data = new byte[500];
+            int current = 0;
+
+            while ((current = bis.read()) != -1) {
+                //baf.append((byte) current);
+                baf.write(data, 0, current);
+
+            }
+
+            return baf.toByteArray();
+
+
+
+
+    }
+
 
 
 }
