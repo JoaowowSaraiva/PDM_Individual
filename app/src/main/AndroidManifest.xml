@@ -23,6 +23,7 @@
         </activity>
 
         <activity android:name=".ActivityFillPost" />
+        <activity android:name=".FullPostActivity"/>
 
     </application>
 
