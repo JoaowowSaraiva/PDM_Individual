@@ -11,9 +11,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import junit.framework.Test;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +33,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class Main extends AppCompatActivity {
 
@@ -39,12 +47,46 @@ public class Main extends AppCompatActivity {
     private DBAuxiliar oDBAux;
     private SQLiteDatabase oSQLiteDB;
 
+    //teste expandable listview
+
+    private ExpandableListView eListView;
+    private ExpandableListAdapter oListAdapter;
+    private List<String> listDataHeader;
+    private HashMap<String, List<String>> listHashMap;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         oDBAux = new DBAuxiliar(this);
+
+
+        eListView = (ExpandableListView) findViewById(R.id.elvTeste);
+        putInitData();
+        oListAdapter = new ExpandableListAdapter(this,listDataHeader, listHashMap);
+        eListView.setAdapter(oListAdapter);
+
+        eListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener(){
+
+            @Override
+            public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id){
+                String teste20 = String.valueOf(parent.getItemAtPosition(groupPosition));
+
+                listDataHeader.get(groupPosition);
+
+               String x= oListAdapter.getChild(groupPosition, childPosition).toString();
+
+                //String title = String.valueOf(adapterView.getItemAtPosition(i));
+                Toast.makeText(Main.this, x, Toast.LENGTH_SHORT).show();
+                return true;
+
+            }
+
+
+        });
+
 
 
         /** nav bar **/
@@ -58,10 +100,20 @@ public class Main extends AppCompatActivity {
         //check connection teste
         oCd = new ConnectionDetector(this);
 
+        //como fazer o else?
         if(oCd.isConnected())
             new JSONTask().execute("http://www.praiafluvial.pt/wp-json/wp/v2/posts?per_page=100&filter[orderby]=date&order=desc");
 
-       //como fazer o else?
+
+
+
+
+
+
+        WebView webView = (WebView) findViewById(R.id.wvMaps);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadData("<iframe src=\"https://www.google.com/maps/d/embed?mid=1D7X0gLTh1FBibYypH8VmJ5715f8\" width=\"640\" height=\"480\"></iframe>", "text/html", null);
+//https://www.youtube.com/watch?v=7IgV5e6vczQ
 
     }
 
@@ -77,6 +129,43 @@ public class Main extends AppCompatActivity {
     }
 
 
+
+    public void putInitData(){
+        listDataHeader = new ArrayList<>();
+        listHashMap = new HashMap<>();
+
+        listDataHeader.add("Teste1");
+        listDataHeader.add("Teste2");
+        listDataHeader.add("Teste3");
+        listDataHeader.add("Teste4");
+
+        List<String> Teste1 = new ArrayList<>();
+        Teste1.add("Sub item de Teste1");
+
+        List<String> Teste2 = new ArrayList<>();
+        Teste2.add("sub item do teste2 - 1");
+        Teste2.add("Sub item do teste2 - 2");
+
+
+        List<String> Teste3 = new ArrayList<>();
+        Teste3.add("sub item do teste3 - 1");
+        Teste3.add("Sub item do teste3 - 2");
+        Teste3.add("Mais uma so para que sim");
+
+        List<String> Teste4 = new ArrayList<>();
+        Teste4.add("AYYAAYYUUIII");
+        Teste4.add("UIUIUIU AIII");
+
+
+
+        listHashMap.put(listDataHeader.get(0), Teste1);
+        listHashMap.put(listDataHeader.get(1), Teste2);
+        listHashMap.put(listDataHeader.get(2), Teste3);
+        listHashMap.put(listDataHeader.get(3), Teste4);
+
+
+
+    }
 
 
     public void startNewActivity2 (View v){

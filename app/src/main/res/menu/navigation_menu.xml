@@ -8,7 +8,9 @@
         />
 
     <item android:id="@+id/PraiasFluviaisNorte"
-        android:title="@string/PraiasFluviaisNorte" />
+        android:title="@string/PraiasFluviaisNorte" >
+
+    </item>
 
     <item android:id="@+id/PraiasFluviaisCentro"
         android:title="@string/PraiasFluviaisCentro" />
