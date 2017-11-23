@@ -218,8 +218,21 @@ public class Aux{
 /**
 
 
- Intent intent = new Intent(Intent.ACTION_VIEW);
- intent.setData(Uri.parse("http://www.stackoverflow.com"));
- startActivity(intent);
+
+
+ JSONTask jk = new JSONTask();
+ String img = "http://www.praiafluvial.pt/wp-content/uploads/2017/11/Praia-Fluvial-ana-de-aviz-3-2.jpg";
+ byte[] b = new byte[500];
+ try {
+ b = jk.getImgFromUrl(img);
+ } catch (IOException e) {
+ e.printStackTrace();
+ }
+
+ ImageView image = (ImageView) findViewById(R.id.imgid);
+ Bitmap bMap = BitmapFactory.decodeByteArray(b, 0, b.length);
+ image.setImageBitmap(bMap);
+
+
 
  **/

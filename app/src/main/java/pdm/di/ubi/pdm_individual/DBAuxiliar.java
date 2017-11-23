@@ -96,7 +96,7 @@ public class DBAuxiliar extends SQLiteOpenHelper{
 
     //true = existe post
     //false = n existe
-    boolean checkExistsPost (int id){
+   public boolean checkExistsPost (int id){
 
         SQLiteDatabase oSQLiteDB = this.getWritableDatabase();//n devia ser Readable?
         Cursor oCursor = null;
@@ -111,36 +111,37 @@ public class DBAuxiliar extends SQLiteOpenHelper{
         return false;
     }
 
-}
-
-
 /**
+    //retorna os 10 posts mais recentes para mostrar na pagina inicial
+    public ArrayList<Posts> getLastestsPosts (){
+        ArrayList<Posts> aPost = new ArrayList<Posts>();
+        SQLiteDatabase oSQLiteDB = this.getReadableDatabase();
+        Cursor oCursor = null;
 
- oDBAux = new DBAuxiliar(this);
- oSQLiteDB = oDBAux.getWritableDatabase();
- System.out.println("TAG SOUT" + " PASSOU NAS INICIALIZAÇÔES");
+        oCursor = oSQLiteDB.rawQuery("SELECT *" + " FROM " + TABLE_POSTS + "LIMIT 10",null);
+        oCursor.moveToFirst();
 
- ContentValues oCValues = new ContentValues();
 
- oCValues.put(oDBAux.SLUG_PK, "praia-de-cvl1");
- oCValues.put(oDBAux.IDPOST, new Integer(1));
- oCValues.put(oDBAux.CONTENT, "Este seria o texto que tem uma carrada de cenas com '+ ~ º ç .");
- oCValues.put(oDBAux.TITLE, "Titulo Lindo");
 
- oSQLiteDB.insert(oDBAux.TABLE_POSTS, null, oCValues);
 
- System.out.println("VAMOSSS!");
+        while(!oCursor.isAfterLast()){
+            Posts oPost=null;
 
- Cursor oCursor;
- oDBAux = new DBAuxiliar(this);
- SQLiteDatabase db2 = oDBAux.getWritableDatabase();
+            oPost.setId(Integer.parseInt(oCursor.getString(0).toString()));
+            oPost.setContent(oCursor.getString(1).toString());
+            oPost.setTitle(oCursor.getString(2).toString());
+            oPost.setCoordinates(oCursor.getString(3).toString());
+            oPost.setCategorie(Integer.parseInt(oCursor.getString(4).toString()));
 
- oCursor = db2.rawQuery("SELECT * " + "FROM " + "Posts", null);
- oCursor.moveToFirst();
+            aPost.add(oPost);
 
- int a =  oCursor.getCount();
+            oCursor.moveToNext();
+        }
 
- String s = oCursor.getString(0).toString();
- System.out.println("Resultado: " + s + " " + a);
+        System.out.println(aPost);
 
- **/
+        return aPost;
+    }
+**/
+
+}

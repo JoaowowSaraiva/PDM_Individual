@@ -58,52 +58,17 @@ public class Main extends AppCompatActivity {
         /** fim da nav bar **/
 
         //check connection teste
-        b_check = (Button) findViewById(R.id.b_check);
         oCd = new ConnectionDetector(this);
-        b_check.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick (View view){
-                if(oCd.isConnected()){
-                    Toast.makeText(Main.this, "Connected", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(Main.this, "Not Connected!", Toast.LENGTH_SHORT).show();
-                }
-            }
 
 
-        });
-        //fim do botao teste check
 
 
-        Button btnHit = (Button) findViewById(R.id.btnHit);
+        if(oCd.isConnected())
+            new JSONTask().execute("http://www.praiafluvial.pt/wp-json/wp/v2/posts?per_page=100&filter[orderby]=date&order=desc");
 
-        //ctrl+alt+shift+t field
-        //tvData = (TextView) findViewById(R.id.tvJsonItem);
-/**
-
-        JSONTask jk = new JSONTask();
-        String img = "http://www.praiafluvial.pt/wp-content/uploads/2017/11/Praia-Fluvial-ana-de-aviz-3-2.jpg";
-        byte[] b = new byte[500];
-        try {
-            b = jk.getImgFromUrl(img);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        ImageView image = (ImageView) findViewById(R.id.imgid);
-        Bitmap bMap = BitmapFactory.decodeByteArray(b, 0, b.length);
-        image.setImageBitmap(bMap);
-
-**/
+       //como fazer o else?
 
 
-        btnHit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new JSONTask().execute("http://www.praiafluvial.pt/wp-json/wp/v2/posts?per_page=100&filter[orderby]=date&order=desc");
-            }
-        });
 
 
     }
