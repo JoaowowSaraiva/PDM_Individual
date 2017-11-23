@@ -4,6 +4,7 @@ package pdm.di.ubi.pdm_individual;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -76,7 +77,7 @@ public class Main extends AppCompatActivity {
 
 
         Button btnHit = (Button) findViewById(R.id.btnHit);
-        Button btn = (Button) findViewById(R.id.bmainPage);
+
         //ctrl+alt+shift+t field
         //tvData = (TextView) findViewById(R.id.tvJsonItem);
 /**
@@ -104,6 +105,7 @@ public class Main extends AppCompatActivity {
             }
         });
 
+
     }
 
 
@@ -119,12 +121,14 @@ public class Main extends AppCompatActivity {
 
 
 
-    public void startNewActivity (View v){
 
-        Intent iActvity = new Intent(this, ActivityFillPost.class);
+    public void startNewActivity2 (View v){
+
+        Intent iActvity = new Intent(this, Postdisplay.class);
         iActvity.putExtra("string1","Aqui vao os args");
         startActivity(iActvity);
     }
+
 
 
     class JSONTask extends AsyncTask<String, String, ArrayList<Posts> >{
@@ -271,13 +275,6 @@ public class Main extends AppCompatActivity {
                 System.out.println("A MIRACLE HAPPENNED!!!!");
             if(flag== false)
                 System.out.println("Works fine (crash!)");
-
-
-
-
-
-
-
         }
 
 /**

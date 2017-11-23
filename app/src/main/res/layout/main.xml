@@ -41,23 +41,19 @@
             tools:layout_constraintLeft_creator="1"
             app:layout_constraintHorizontal_bias="0.851" />
 
-        <Button
 
-            android:id="@+id/bmainPage"
-            android:onClick="startNewActivity"
+        <Button
+            android:id="@+id/button"
+            android:onClick="startNewActivity2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bora Lá"
-            tools:layout_constraintRight_creator="1"
-            tools:layout_constraintBottom_creator="1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            android:text="New View"
+            tools:layout_constraintTop_creator="1"
+            android:layout_marginStart="33dp"
+            android:layout_marginTop="111dp"
             tools:layout_constraintLeft_creator="1"
-            android:layout_marginBottom="176dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-
-
-            />
+            app:layout_constraintTop_toTopOf="@+id/btnHit"
+            app:layout_constraintLeft_toRightOf="@+id/btnHit" />
 
 
     </android.support.constraint.ConstraintLayout>

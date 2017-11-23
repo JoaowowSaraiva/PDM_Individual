@@ -22,8 +22,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ActivityFillPost" />
         <activity android:name=".FullPostActivity"/>
+        <activity android:name=".Postdisplay"/>
 
     </application>
 

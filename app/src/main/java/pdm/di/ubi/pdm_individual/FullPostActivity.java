@@ -6,9 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by saraiva on 22-11-2017.
@@ -39,41 +41,43 @@ public class FullPostActivity extends Activity {
         oButtonCoordinates = (Button) findViewById(R.id.bCoordinates);
 
 
+        Intent iCameFromActivity1 = getIntent();
+        String title_app = iCameFromActivity1.getStringExtra("title");
+
         Intent iCameFromFillPost = getIntent();
         int id=0, title, content, coordinates;
         id = iCameFromFillPost.getIntExtra("String1", 0);
-        Cursor oCursos= null;
+        Cursor oCursor= null;
 
-        oCursos  = oSQLiteDB.rawQuery("SELECT * FROM " + oDBAux.TABLE_POSTS + " WHERE " + id + "="+ oDBAux.IDPOST ,null);
-        oCursos.moveToFirst();
-
-
-        title = oCursos.getColumnIndex(oDBAux.TITLE);
-        content = oCursos.getColumnIndex(oDBAux.CONTENT);
-        coordinates = oCursos.getColumnIndex(oDBAux.COORDINATES);
-
-        oTVTitle.setText(oCursos.getString(title).toString());
-        oTVContent.setText(oCursos.getString(content).toString());
+        oCursor = oSQLiteDB.rawQuery(" SELECT *" + " FROM " + oDBAux.TABLE_POSTS + " WHERE " + "'" + title_app +"'" + "=" + oDBAux.TITLE, null);
+        oCursor.moveToFirst();
 
 
-        final Cursor finalOCursos = oCursos;
-        final int finalCoordinates = coordinates;
-        oButtonCoordinates.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        title = oCursor.getColumnIndex(oDBAux.TITLE);
+        content = oCursor.getColumnIndex(oDBAux.CONTENT);
+        coordinates = oCursor.getColumnIndex(oDBAux.COORDINATES);
+
+        oTVTitle.setText(oCursor.getString(title).toString());
+        oTVContent.setText(oCursor.getString(content).toString());
 
 
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(finalOCursos.getString(finalCoordinates).toString() ) );
-                startActivity(intent);
-            }
-        });
+            final Cursor finalOCursor = oCursor;
+            final int finalCoordinates = coordinates;
+            oButtonCoordinates.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if(!TextUtils.isEmpty(finalOCursor.getString(finalCoordinates).toString())) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(finalOCursor.getString(finalCoordinates).toString()));
+                        startActivity(intent);
+                    }
+                    else {
+                        Toast.makeText(FullPostActivity.this, "Ainda não temos coordenadas para este local!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+            });
+        }
 
     }
-
-
-
-}
-
-
-
