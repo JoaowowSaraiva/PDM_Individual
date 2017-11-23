@@ -35,9 +35,7 @@ public class Main extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToogle;
-    Button b_check;
     ConnectionDetector oCd;
-    private TextView tvData;
     private DBAuxiliar oDBAux;
     private SQLiteDatabase oSQLiteDB;
 
@@ -60,16 +58,10 @@ public class Main extends AppCompatActivity {
         //check connection teste
         oCd = new ConnectionDetector(this);
 
-
-
-
         if(oCd.isConnected())
             new JSONTask().execute("http://www.praiafluvial.pt/wp-json/wp/v2/posts?per_page=100&filter[orderby]=date&order=desc");
 
        //como fazer o else?
-
-
-
 
     }
 

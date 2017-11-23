@@ -20,10 +20,12 @@
             android:layout_height="wrap_content"
             android:text="New View"
             tools:layout_constraintTop_creator="1"
-            android:layout_marginStart="33dp"
             tools:layout_constraintLeft_creator="1"
-            tools:layout_editor_absoluteY="127dp"
-            tools:layout_editor_absoluteX="137dp" />
+            tools:layout_constraintRight_creator="1"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="208dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </android.support.constraint.ConstraintLayout>
