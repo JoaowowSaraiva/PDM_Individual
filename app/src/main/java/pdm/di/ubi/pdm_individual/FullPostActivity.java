@@ -6,7 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,7 +20,7 @@ import android.widget.Toast;
  * Created by saraiva on 22-11-2017.
  */
 
-public class FullPostActivity extends Activity {
+public class FullPostActivity extends AppCompatActivity {
 
 
     TextView oTVTitle;
@@ -80,4 +84,67 @@ public class FullPostActivity extends Activity {
             });
         }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.navigation_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+
+            case R.id.Home: {
+                Toast.makeText(this, "Primeiro Item", Toast.LENGTH_SHORT).show();
+                Intent iActivity1 = new Intent(getApplicationContext(), Main.class);
+                startActivity(iActivity1);
+                return true;
+            }
+            case R.id.PraiasFluviaisNorte: {
+                Toast.makeText(this, "Segundo Item", Toast.LENGTH_SHORT).show();
+                Intent iActivity2 = new Intent(getApplicationContext(), NorthenRiverBeaches.class);
+                startActivity(iActivity2);
+                return true;
+            }
+            case R.id.PraiasFluviaisCentro: {
+                Toast.makeText(this, "PraiasCentro", Toast.LENGTH_SHORT).show();
+                Intent iActvity3 = new Intent(getApplicationContext(), CenterRiverBeaches.class);
+                startActivity(iActvity3);
+                return true;
+            }
+            case R.id.PraiasFluviaisSul: {
+                Toast.makeText(this, "PraiaSul", Toast.LENGTH_SHORT).show();
+                Intent iActvity4 = new Intent(getApplicationContext(), SouthRiverBeaches.class);
+                startActivity(iActvity4);
+                return true;
+            }
+            case R.id.Acores: {
+                Toast.makeText(this, "Acores", Toast.LENGTH_SHORT).show();
+                Intent iActvity5 = new Intent(getApplicationContext(), AcoresRiverBeaches.class);
+                startActivity(iActvity5);
+                return true;
+            }
+            case R.id.Madeira: {
+                Toast.makeText(this, "Madeira", Toast.LENGTH_SHORT).show();
+                Intent iActvity6 = new Intent(getApplicationContext(), MadeiraRiverBeaches.class);
+                startActivity(iActvity6);
+                return true;
+            }
+            case R.id.Destaques: {
+                Toast.makeText(this, "PraiaSul", Toast.LENGTH_SHORT).show();
+                Intent iActvity7 = new Intent(getApplicationContext(), HighlightsRiverBeaches.class);
+                startActivity(iActvity7);
+                return true;
+            }
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
+
+}

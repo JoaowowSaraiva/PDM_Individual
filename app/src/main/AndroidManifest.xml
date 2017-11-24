@@ -23,14 +23,29 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".FullPostActivity"/>
+        <activity android:name=".FullPostActivity"
+            />
+
         <activity android:name=".Postdisplay"/>.
-        <activity android:name=".NorthenRiverBeaches"/>
-        <activity android:name=".CenterRiverBeaches"/>
-        <activity android:name=".SouthRiverBeaches"/>
-        <activity android:name=".AcoresRiverBeaches"/>
-        <activity android:name=".MadeiraRiverBeaches"/>
-        <activity android:name=".HighlightsRiverBeaches"/>
+        <activity android:name=".NorthenRiverBeaches"
+            android:parentActivityName=".Main"
+            />
+        <activity android:name=".CenterRiverBeaches"
+            android:parentActivityName=".Main"
+            />
+        <activity android:name=".SouthRiverBeaches"
+           android:parentActivityName=".Main"
+            />
+        <activity android:name=".AcoresRiverBeaches"
+            android:parentActivityName=".Main"
+            />
+        <activity android:name=".MadeiraRiverBeaches"
+            android:parentActivityName=".Main"
+            />
+        <activity android:name=".HighlightsRiverBeaches"
+            android:parentActivityName=".Main"
+            />
+
 
     </application>
 

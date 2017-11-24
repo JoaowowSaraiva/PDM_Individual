@@ -11,8 +11,9 @@
     <string name="Madeira">MADEIRA</string>
     <string name="Destaques">DESTAQUES</string>
 
-    <string name="nrb_comment">Já acordou com vontade de explorar o norte do país? Venha à descoberta de pequenos refúgios de lazer e bem-estar conhecendo as Praias Fluviais do Norte:
-</string>
-
-
+    <string name="nrb_comment">Já acordou com vontade de explorar o norte do país? Venha à descoberta de pequenos refúgios de lazer e bem-estar conhecendo as Praias Fluviais do Norte:</string>
+    <string name="srb_comment">Já acordou com vontade de explorar o sul do país? Venha à descoberta de pequenos refúgios de lazer e bem-estar conhecendo as Praias Fluviais do Sul::</string>
+    <string name="crb_comment">Já acordou com vontade de explorar o centro do país? Venha à descoberta de pequenos refúgios de lazer e bem-estar conhecendo as Praias Fluviais do Centro:</string>
+    <string name="acores_comment">Está de viagem pelos Açores? Então não perca esta oportunidade e venha conhecer a beleza dos recantos das zonas balneares do Arquipélago dos Açores:</string>
+    <string name="madeira_comment">Está de viagem pela Madeira? Então não perca esta oportunidade e venha conhecer os recantos das piscinas e zonas balneares do Arquipélago Madeira.</string>
 </resources>

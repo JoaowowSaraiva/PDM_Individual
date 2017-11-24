@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.support.v7.view.menu.ActionMenuItemView;
 import android.support.v7.widget.Toolbar;
 import android.view.GestureDetector;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -55,7 +57,6 @@ public class Main extends AppCompatActivity {
     private ImageButton teste;
 
     //teste expandable listview
-
     private ExpandableListView eListView;
     private ExpandableListAdapter oListAdapter;
     private List<String> listDataHeader;
@@ -70,22 +71,23 @@ public class Main extends AppCompatActivity {
         oDBAux = new DBAuxiliar(this);
 
 
+
         eListView = (ExpandableListView) findViewById(R.id.elvTeste);
         putInitData();
-        oListAdapter = new ExpandableListAdapter(this,listDataHeader, listHashMap);
+        oListAdapter = new ExpandableListAdapter(this, listDataHeader, listHashMap);
         eListView.setAdapter(oListAdapter);
 
-        eListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener(){
+        eListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
             @Override
-            public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id){
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 listDataHeader.get(groupPosition);
-                String x= oListAdapter.getChild(groupPosition, childPosition).toString();
+                String x = oListAdapter.getChild(groupPosition, childPosition).toString();
 
                 Toast.makeText(Main.this, x, Toast.LENGTH_SHORT).show();
 
                 Intent iActvity = new Intent(getApplicationContext(), FullPostActivity.class);
-                iActvity.putExtra("title",x);
+                iActvity.putExtra("title", x);
                 startActivity(iActvity);
 
                 return true;
@@ -95,32 +97,88 @@ public class Main extends AppCompatActivity {
 
         });
 
-        ActionBar teste = getSupportActionBar();
-
-
-
-        /** nav bar **/
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        mToogle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
-        mDrawerLayout.addDrawerListener(mToogle);
-        mToogle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        /** fim da nav bar **/
 
 
         //check connection teste
         oCd = new ConnectionDetector(this);
 
         //como fazer o else?
-        if(oCd.isConnected())
-            new JSONTask().execute("http://www.praiafluvial.pt/wp-json/wp/v2/posts?per_page=100&filter[orderby]=date&order=desc");
+          if(oCd.isConnected())
+           new JSONTask().execute("http://www.praiafluvial.pt/wp-json/wp/v2/posts?per_page=100&filter[orderby]=date&order=desc");
+
+
+
 
 
 
     }
 
 
-    @Override/**Funcao para nav bar**/
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.navigation_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+
+            case R.id.Home: {
+                Toast.makeText(this, "Primeiro Item", Toast.LENGTH_SHORT).show();
+                Intent iActivity1 = new Intent(getApplicationContext(), Main.class);
+                startActivity(iActivity1);
+                return true;
+            }
+            case R.id.PraiasFluviaisNorte: {
+                Toast.makeText(this, "Segundo Item", Toast.LENGTH_SHORT).show();
+                Intent iActivity2 = new Intent(getApplicationContext(), NorthenRiverBeaches.class);
+                startActivity(iActivity2);
+                return true;
+            }
+            case R.id.PraiasFluviaisCentro: {
+                Toast.makeText(this, "PraiasCentro", Toast.LENGTH_SHORT).show();
+                Intent iActvity3 = new Intent(getApplicationContext(), CenterRiverBeaches.class);
+                startActivity(iActvity3);
+                return true;
+            }
+            case R.id.PraiasFluviaisSul: {
+                Toast.makeText(this, "PraiaSul", Toast.LENGTH_SHORT).show();
+                Intent iActvity4 = new Intent(getApplicationContext(), SouthRiverBeaches.class);
+                startActivity(iActvity4);
+                return true;
+            }
+            case R.id.Acores: {
+                Toast.makeText(this, "Acores", Toast.LENGTH_SHORT).show();
+                Intent iActvity5 = new Intent(getApplicationContext(), AcoresRiverBeaches.class);
+                startActivity(iActvity5);
+                return true;
+            }
+            case R.id.Madeira: {
+                Toast.makeText(this, "Madeira", Toast.LENGTH_SHORT).show();
+                Intent iActvity6 = new Intent(getApplicationContext(), MadeiraRiverBeaches.class);
+                startActivity(iActvity6);
+                return true;
+            }
+            case R.id.Destaques: {
+                Toast.makeText(this, "PraiaSul", Toast.LENGTH_SHORT).show();
+                Intent iActvity7 = new Intent(getApplicationContext(), HighlightsRiverBeaches.class);
+                startActivity(iActvity7);
+                return true;
+            }
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
+
+    /**Funcao para nav bar primeira**/
+    /**
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if(mToogle.onOptionsItemSelected(item)){
@@ -130,7 +188,7 @@ public class Main extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+**/
 
     public void putInitData(){
         listDataHeader = new ArrayList<>();

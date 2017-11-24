@@ -45,6 +45,7 @@ public class Aux{
         content = content.replace("(adsbygoogle = window.adsbygoogle || []).push({});", "");
         content = content.replace("Onde ficar", "");
         content = content.replace("Onde Ficar" ,"");
+       // content = content.replaceAll("Coordenadas.*W", "");
 
         xpp.setInput(new StringReader(content));
         int eventType = xpp.getEventType();
