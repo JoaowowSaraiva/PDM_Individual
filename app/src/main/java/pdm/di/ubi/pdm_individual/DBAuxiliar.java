@@ -43,12 +43,12 @@ public class DBAuxiliar extends SQLiteOpenHelper{
             IMG + " BLOB, " +
             EXCERPT + " TEXT, " +
             DATE + " TEXT );" ;
-
+/**
     protected static final String AUX_CREATE_TABLE = "" +
             "CREATE TABLE " + TABLE_AUX + " (" +
             ID_TABELA + " INT PRIMARY KEY, " +
             JSON_SIZE + " INT );";
-
+**/
 
     DBAuxiliar(Context context){
           super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -58,14 +58,13 @@ public class DBAuxiliar extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(POSTS_CREATE_TABLE);
-        db.execSQL(AUX_CREATE_TABLE);
+        //db.execSQL(AUX_CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
 
     }
-
 
     //inserir na db este array de posts
     boolean insertArrayPosts (ArrayList<Posts> oPosts){
@@ -109,6 +108,43 @@ public class DBAuxiliar extends SQLiteOpenHelper{
             return true;
 
         return false;
+    }
+
+
+    public ArrayList<String> getTitlesFromCategorieandTitle( int id){
+        ArrayList result = new ArrayList<String>();
+
+        SQLiteDatabase oSQLiteDB;
+        oSQLiteDB = this.getReadableDatabase();
+
+        Cursor oCursor = null;
+        oCursor = oSQLiteDB.rawQuery("SELECT " + TITLE + " FROM " + TABLE_POSTS + " WHERE " + CATEGORIE + "=" + id, null );
+        oCursor.moveToFirst();
+
+
+        while(!oCursor.isAfterLast()){
+            result.add(oCursor.getString(0).toString());
+            oCursor.moveToNext();
+        }
+
+
+        return result;
+    }
+
+
+    public int getIdPostFromTitle(String title){
+        int id =0;
+
+        SQLiteDatabase oSQLiteDB = this.getReadableDatabase();
+
+        Cursor oCursor = null;
+        oCursor = oSQLiteDB.rawQuery("SELECT " + IDPOST + " FROM " + TABLE_POSTS + " WHERE " + "'" + title + "'" + "=" + TITLE, null);
+        oCursor.moveToFirst();
+
+        id = Integer.parseInt(oCursor.getString(0).toString());
+
+
+        return id;
     }
 
 /**

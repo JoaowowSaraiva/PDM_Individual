@@ -11,7 +11,7 @@
 
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
@@ -40,17 +40,21 @@
             <WebView
                 android:id="@+id/wvMaps"
                 android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+
+            <ExpandableListView
+                android:id="@+id/expandlvNorte"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginBottom="1dp"
 
-
-
-            <ListView
-                android:id="@+id/lvPraias"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </ListView>
+                />
 
 
         </LinearLayout>

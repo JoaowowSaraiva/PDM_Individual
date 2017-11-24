@@ -2,19 +2,26 @@
 package pdm.di.ubi.pdm_individual;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.view.menu.ActionMenuItemView;
+import android.support.v7.widget.Toolbar;
+import android.view.GestureDetector;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,19 +40,19 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class Main extends AppCompatActivity {
-
+//https://www.youtube.com/watch?v=j-3L3CgYXkU
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToogle;
     ConnectionDetector oCd;
     private DBAuxiliar oDBAux;
     private SQLiteDatabase oSQLiteDB;
+    private ImageButton teste;
 
     //teste expandable listview
 
@@ -72,20 +79,23 @@ public class Main extends AppCompatActivity {
 
             @Override
             public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id){
-                String teste20 = String.valueOf(parent.getItemAtPosition(groupPosition));
-
                 listDataHeader.get(groupPosition);
+                String x= oListAdapter.getChild(groupPosition, childPosition).toString();
 
-               String x= oListAdapter.getChild(groupPosition, childPosition).toString();
-
-                //String title = String.valueOf(adapterView.getItemAtPosition(i));
                 Toast.makeText(Main.this, x, Toast.LENGTH_SHORT).show();
+
+                Intent iActvity = new Intent(getApplicationContext(), FullPostActivity.class);
+                iActvity.putExtra("title",x);
+                startActivity(iActvity);
+
                 return true;
 
             }
 
 
         });
+
+        ActionBar teste = getSupportActionBar();
 
 
 
@@ -97,6 +107,7 @@ public class Main extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         /** fim da nav bar **/
 
+
         //check connection teste
         oCd = new ConnectionDetector(this);
 
@@ -105,15 +116,6 @@ public class Main extends AppCompatActivity {
             new JSONTask().execute("http://www.praiafluvial.pt/wp-json/wp/v2/posts?per_page=100&filter[orderby]=date&order=desc");
 
 
-
-
-
-
-
-        WebView webView = (WebView) findViewById(R.id.wvMaps);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadData("<iframe src=\"https://www.google.com/maps/d/embed?mid=1D7X0gLTh1FBibYypH8VmJ5715f8\" width=\"640\" height=\"480\"></iframe>", "text/html", null);
-//https://www.youtube.com/watch?v=7IgV5e6vczQ
 
     }
 
@@ -134,34 +136,45 @@ public class Main extends AppCompatActivity {
         listDataHeader = new ArrayList<>();
         listHashMap = new HashMap<>();
 
-        listDataHeader.add("Teste1");
-        listDataHeader.add("Teste2");
-        listDataHeader.add("Teste3");
-        listDataHeader.add("Teste4");
+        listDataHeader.add("Aveiro");
+        listDataHeader.add("Braga");
+        listDataHeader.add("Bragança");
+        listDataHeader.add("Porto");
+        listDataHeader.add("Viana do Castelo");
+        listDataHeader.add("Vila Real");
+        listDataHeader.add("Viseu");
 
-        List<String> Teste1 = new ArrayList<>();
-        Teste1.add("Sub item de Teste1");
+        List<String> Aveiro = new ArrayList<>();
 
-        List<String> Teste2 = new ArrayList<>();
-        Teste2.add("sub item do teste2 - 1");
-        Teste2.add("Sub item do teste2 - 2");
-
-
-        List<String> Teste3 = new ArrayList<>();
-        Teste3.add("sub item do teste3 - 1");
-        Teste3.add("Sub item do teste3 - 2");
-        Teste3.add("Mais uma so para que sim");
-
-        List<String> Teste4 = new ArrayList<>();
-        Teste4.add("AYYAAYYUUIII");
-        Teste4.add("UIUIUIU AIII");
+        Aveiro = oDBAux.getTitlesFromCategorieandTitle(34); // posts de aveiro
 
 
+        List<String> Braga = new ArrayList<>();
+        Braga = oDBAux.getTitlesFromCategorieandTitle(9);
 
-        listHashMap.put(listDataHeader.get(0), Teste1);
-        listHashMap.put(listDataHeader.get(1), Teste2);
-        listHashMap.put(listDataHeader.get(2), Teste3);
-        listHashMap.put(listDataHeader.get(3), Teste4);
+        List<String> Bragança = new ArrayList<>();
+        Bragança = oDBAux.getTitlesFromCategorieandTitle(37);
+
+        List<String> Porto = new ArrayList<>();
+        Porto = oDBAux.getTitlesFromCategorieandTitle(11);
+
+
+        List<String> VianadoCastelo = new ArrayList<>();
+        VianadoCastelo = oDBAux.getTitlesFromCategorieandTitle(36);
+
+        List<String> VilaReal = new ArrayList<>();
+        VilaReal = oDBAux.getTitlesFromCategorieandTitle(38);
+
+        List<String> Viseu = new ArrayList<>();
+        Viseu = oDBAux.getTitlesFromCategorieandTitle(39);
+
+        listHashMap.put(listDataHeader.get(0), Aveiro);
+        listHashMap.put(listDataHeader.get(1), Braga);
+        listHashMap.put(listDataHeader.get(2), Bragança);
+        listHashMap.put(listDataHeader.get(3), Porto);
+        listHashMap.put(listDataHeader.get(4), VianadoCastelo);
+        listHashMap.put(listDataHeader.get(5), VilaReal);
+        listHashMap.put(listDataHeader.get(6), Viseu);
 
 
 
@@ -175,6 +188,54 @@ public class Main extends AppCompatActivity {
         startActivity(iActvity);
     }
 
+    public void testShare(View v){
+        Intent intent = this.getPackageManager().getLaunchIntentForPackage("com.facebook.katana");
+        if(intent == null)
+            Toast.makeText(this, "Ups!", Toast.LENGTH_SHORT).show();
+        else {
+            Intent iFaceShare = new Intent(Intent.ACTION_SEND);
+            iFaceShare.setType("text/plain");
+            iFaceShare.putExtra(Intent.EXTRA_TEXT, "Teste from app");
+            startActivity(Intent.createChooser(iFaceShare, "Title for the dialog"));
+
+        }
+    }
+
+    public void startNorthenRiverBeachesActivity (View v){
+
+        Intent iActivty = new Intent (this, NorthenRiverBeaches.class);
+        startActivity(iActivty);
+    }
+
+    public void startCenterRiverBeachesActivity (View v){
+
+        Intent iActivty = new Intent (this, CenterRiverBeaches.class);
+        startActivity(iActivty);
+    }
+
+
+    public void startSouthRiverBeachesActivity(View v){
+
+        Intent iActivity = new Intent (this, SouthRiverBeaches.class);
+        startActivity(iActivity);
+
+    }
+
+    public void startAcoresRiverBeachesActivity(View v){
+        Intent iActivity = new Intent (this, AcoresRiverBeaches.class);
+        startActivity(iActivity);
+    }
+
+    public void startMadeiraRiverBeachesActivity(View v){
+        Intent iActivity = new Intent (this, MadeiraRiverBeaches.class);
+        startActivity(iActivity);
+    }
+
+    public void startHighlighsRivverBeachesActivity(View v){
+
+        Intent iActivity = new Intent(this, HighlightsRiverBeaches.class);
+        startActivity(iActivity);
+    }
 
 
     class JSONTask extends AsyncTask<String, String, ArrayList<Posts> >{
@@ -251,7 +312,7 @@ public class Main extends AppCompatActivity {
                     content = oParsing.parseContent(content);
                     date = oParsing.parseDate(date);
                     excerpt = oParsing.parseExcerpt(excerpt);
-
+                    title = title.replace("&#8211;", "-"); //testing
 
                     oPosts.setCategorie(categories);
                     oPosts.setContent(content);

@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
 
+    
 
     <application
         android:allowBackup="true"
@@ -23,7 +24,13 @@
         </activity>
 
         <activity android:name=".FullPostActivity"/>
-        <activity android:name=".Postdisplay"/>
+        <activity android:name=".Postdisplay"/>.
+        <activity android:name=".NorthenRiverBeaches"/>
+        <activity android:name=".CenterRiverBeaches"/>
+        <activity android:name=".SouthRiverBeaches"/>
+        <activity android:name=".AcoresRiverBeaches"/>
+        <activity android:name=".MadeiraRiverBeaches"/>
+        <activity android:name=".HighlightsRiverBeaches"/>
 
     </application>
 
