@@ -39,7 +39,7 @@ public class NorthenRiverBeaches extends AppCompatActivity {
     private ExpandableListAdapter oListAdapter;
     private List<String> listDataHeader;
     private HashMap<String, List<String>> listHashMap;
-    private DBAuxiliar oDBAux;
+    private DBAuxiliar oDBAux= new DBAuxiliar(this);
     private SQLiteDatabase oSQLiteDB;
 
 
@@ -52,14 +52,20 @@ public class NorthenRiverBeaches extends AppCompatActivity {
         setContentView(R.layout.nrb_layout);
 
 
+        ConnectionDetector oCd = new ConnectionDetector(this);
 
-        oWV = (WebView) findViewById(R.id.wvMaps);
-        oWV.getSettings().setJavaScriptEnabled(true);
-        oWV.loadData("<iframe src=\"https://www.google.com/maps/d/embed?mid=1D7X0gLTh1FBibYypH8VmJ5715f8\" width=\"640\" height=\"480\"></iframe>", "text/html", null);
+        if(oCd.isConnected()) {
+            oWV = (WebView) findViewById(R.id.wvMaps);
+            oWV.getSettings().setJavaScriptEnabled(true);
+            oWV.loadData("<iframe src=\"https://www.google.com/maps/d/embed?mid=1D7X0gLTh1FBibYypH8VmJ5715f8\" width=\"640\" height=\"480\"></iframe>", "text/html", null);
+        }
+        else{
+            oWV = (WebView) findViewById(R.id.wvMaps);
+            oWV.getSettings().setJavaScriptEnabled(true);
+            oWV.loadData("Sem connecção a Internet para exibir o mapa!", "text/plain", null);
+        }
 
-
-
-        eListView = (ExpandableListView) findViewById(R.id.expandlvNorte);
+        eListView = (ExpandableListView) findViewById(R.id.expandableListView);
         putInitData();
         oListAdapter = new ExpandableListAdapter(this,listDataHeader, listHashMap);
         eListView.setAdapter(oListAdapter);
@@ -161,44 +167,27 @@ public class NorthenRiverBeaches extends AppCompatActivity {
         listDataHeader.add("Vila Real");
         listDataHeader.add("Viseu");
 
-        List<String> Aveiro = new ArrayList<>();
+        List<String> Aveiro = oDBAux.getTitlesFromCategorieandTitle(34);
 
-        oDBAux= new DBAuxiliar(this);
-        oSQLiteDB = oDBAux.getReadableDatabase();
+        List<String> Braga = oDBAux.getTitlesFromCategorieandTitle(9);
 
-        Cursor oCursor = null;
-        oCursor = oSQLiteDB.rawQuery("SELECT " + oDBAux.TITLE + " FROM " + oDBAux.TABLE_POSTS + " WHERE " + oDBAux.CATEGORIE + "=" + "34", null );
-        oCursor.moveToFirst();
+        List<String> Bragança = oDBAux.getTitlesFromCategorieandTitle(37);
 
+        List<String> Porto = oDBAux.getTitlesFromCategorieandTitle(11);
 
-        while(!oCursor.isAfterLast()){
-            Aveiro.add(oCursor.getString(0).toString());
-            oCursor.moveToNext();
-        }
+        List<String> VianadoCastelo = oDBAux.getTitlesFromCategorieandTitle(36);
 
-        List<String> Braga = new ArrayList<>();
-        Braga.add("sub item do teste2 - 1");
-        Braga.add("Sub item do teste2 - 2");
+        List<String> VilaReal = oDBAux.getTitlesFromCategorieandTitle(38);
 
-
-        List<String> Bragança = new ArrayList<>();
-        Bragança.add("sub item do teste3 - 1");
-        Bragança.add("Sub item do teste3 - 2");
-        Bragança.add("Mais uma so para que sim");
-
-        List<String> Porto = new ArrayList<>();
-        Porto.add("AYYAAYYUUIII");
-        Porto.add("UIUIUIU AIII");
-
-        List<String> VianadoCastelo = new ArrayList<>();
-        Porto.add("alalal");
+        List<String> Viseu = oDBAux.getTitlesFromCategorieandTitle(39);
 
         listHashMap.put(listDataHeader.get(0), Aveiro);
         listHashMap.put(listDataHeader.get(1), Braga);
         listHashMap.put(listDataHeader.get(2), Bragança);
         listHashMap.put(listDataHeader.get(3), Porto);
         listHashMap.put(listDataHeader.get(4), VianadoCastelo);
-
+        listHashMap.put(listDataHeader.get(5), VilaReal);
+        listHashMap.put(listDataHeader.get(6), Viseu);
 
 
     }

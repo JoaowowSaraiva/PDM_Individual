@@ -1,9 +1,14 @@
 
 package pdm.di.ubi.pdm_individual;
 
+import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v4.widget.DrawerLayout;
@@ -21,9 +26,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,7 +67,9 @@ public class Main extends AppCompatActivity {
     private ExpandableListView eListView;
     private ExpandableListAdapter oListAdapter;
     private List<String> listDataHeader;
-    private HashMap<String, List<String>> listHashMap;
+    private ListView oLV;
+    Cursor oCursor = null;
+    ArrayAdapter<String> itemAdapter, itemAdapter2;
 
 
 
@@ -68,34 +77,36 @@ public class Main extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        oDBAux = new DBAuxiliar(this);
+        oDBAux=new DBAuxiliar(this);
+        oSQLiteDB = oDBAux.getReadableDatabase();
+
+
+        oLV = (ListView) findViewById(R.id.listviewID);
+
+
+        ArrayList<String> titles = oDBAux.getLastestsTitlePosts();
 
 
 
-        eListView = (ExpandableListView) findViewById(R.id.elvTeste);
-        putInitData();
-        oListAdapter = new ExpandableListAdapter(this, listDataHeader, listHashMap);
-        eListView.setAdapter(oListAdapter);
+        System.out.println(titles);
+        itemAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, titles);
 
-        eListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+        oLV.setAdapter(itemAdapter);
 
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                listDataHeader.get(groupPosition);
-                String x = oListAdapter.getChild(groupPosition, childPosition).toString();
+        oLV.setOnItemClickListener(
+                new AdapterView.OnItemClickListener(){
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        String title = String.valueOf(adapterView.getItemAtPosition(i));
 
-                Toast.makeText(Main.this, x, Toast.LENGTH_SHORT).show();
+                        Intent iActvity = new Intent(getApplicationContext(), FullPostActivity.class);
+                        iActvity.putExtra("title",title);
+                        startActivity(iActvity);
 
-                Intent iActvity = new Intent(getApplicationContext(), FullPostActivity.class);
-                iActvity.putExtra("title", x);
-                startActivity(iActvity);
+                    }
+                }
 
-                return true;
-
-            }
-
-
-        });
+        );
 
 
 
@@ -108,8 +119,84 @@ public class Main extends AppCompatActivity {
 
 
 
+    }
 
 
+
+
+    public void startFacebookIntent(View v) {
+        String url="https://www.facebook.com/pequenosparaisospt/";
+        Intent iActvity = new Intent(Intent.ACTION_VIEW);
+        iActvity.setData(Uri.parse(url));
+        startActivity(iActvity);
+    }
+
+    public static Intent getOpenFacebookIntent(PackageManager pm, String url) {
+        Uri uri = Uri.parse(url);
+
+        try{
+            ApplicationInfo applicationInfo = pm.getApplicationInfo("com.facebook.katana", 0);
+            if(applicationInfo.enabled) {
+
+                uri = Uri.parse("fb://facewebmodal/f?href=" + url);
+            }
+            }catch(PackageManager.NameNotFoundException ignored){
+            }
+
+        return new Intent(Intent.ACTION_VIEW, uri);
+
+    }
+
+    public void startFB (View v){
+
+        startActivity(getOpenFacebookIntent(getPackageManager(), "https://www.facebook.com/pequenosparaisospt/"));
+    }
+
+    public void startInstagram (View v){
+
+        Uri uri = Uri.parse("https://www.instagram.com/praias_fluviais/");
+        Intent likeIng = new Intent(Intent.ACTION_VIEW, uri);
+
+        likeIng.setPackage("com.instagram.android");
+
+        try {
+            startActivity(likeIng);
+        } catch (ActivityNotFoundException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://www.instagram.com/praias_fluviais/")));
+        }
+
+    }
+
+    public void startYoutube(View v){
+        String url = "https://www.youtube.com/channel/UCFddNBlKlyYfpSj_YgDwjFw";
+
+        Intent intent=null;
+        try {
+            intent =new Intent(Intent.ACTION_VIEW);
+            intent.setPackage("com.google.android.youtube");
+            intent.setData(Uri.parse(url));
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            startActivity(intent);
+        }
+
+    }
+
+    public void startSendMail (View v){
+
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"praiasfluviaispt@gmail.com"});
+        i.putExtra(Intent.EXTRA_SUBJECT, "Assunto..");
+        i.putExtra(Intent.EXTRA_TEXT   , "Ola! ...");
+        try {
+            startActivity(Intent.createChooser(i, "Enviar email..."));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(Main.this, "Não existem aplicações instaladas para enviar emails!.", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -173,126 +260,6 @@ public class Main extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
 
-    }
-
-
-    /**Funcao para nav bar primeira**/
-    /**
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if(mToogle.onOptionsItemSelected(item)){
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-**/
-
-    public void putInitData(){
-        listDataHeader = new ArrayList<>();
-        listHashMap = new HashMap<>();
-
-        listDataHeader.add("Aveiro");
-        listDataHeader.add("Braga");
-        listDataHeader.add("Bragança");
-        listDataHeader.add("Porto");
-        listDataHeader.add("Viana do Castelo");
-        listDataHeader.add("Vila Real");
-        listDataHeader.add("Viseu");
-
-        List<String> Aveiro = new ArrayList<>();
-
-        Aveiro = oDBAux.getTitlesFromCategorieandTitle(34); // posts de aveiro
-
-
-        List<String> Braga = new ArrayList<>();
-        Braga = oDBAux.getTitlesFromCategorieandTitle(9);
-
-        List<String> Bragança = new ArrayList<>();
-        Bragança = oDBAux.getTitlesFromCategorieandTitle(37);
-
-        List<String> Porto = new ArrayList<>();
-        Porto = oDBAux.getTitlesFromCategorieandTitle(11);
-
-
-        List<String> VianadoCastelo = new ArrayList<>();
-        VianadoCastelo = oDBAux.getTitlesFromCategorieandTitle(36);
-
-        List<String> VilaReal = new ArrayList<>();
-        VilaReal = oDBAux.getTitlesFromCategorieandTitle(38);
-
-        List<String> Viseu = new ArrayList<>();
-        Viseu = oDBAux.getTitlesFromCategorieandTitle(39);
-
-        listHashMap.put(listDataHeader.get(0), Aveiro);
-        listHashMap.put(listDataHeader.get(1), Braga);
-        listHashMap.put(listDataHeader.get(2), Bragança);
-        listHashMap.put(listDataHeader.get(3), Porto);
-        listHashMap.put(listDataHeader.get(4), VianadoCastelo);
-        listHashMap.put(listDataHeader.get(5), VilaReal);
-        listHashMap.put(listDataHeader.get(6), Viseu);
-
-
-
-    }
-
-
-    public void startNewActivity2 (View v){
-
-        Intent iActvity = new Intent(this, Postdisplay.class);
-        iActvity.putExtra("string1","Aqui vao os args");
-        startActivity(iActvity);
-    }
-
-    public void testShare(View v){
-        Intent intent = this.getPackageManager().getLaunchIntentForPackage("com.facebook.katana");
-        if(intent == null)
-            Toast.makeText(this, "Ups!", Toast.LENGTH_SHORT).show();
-        else {
-            Intent iFaceShare = new Intent(Intent.ACTION_SEND);
-            iFaceShare.setType("text/plain");
-            iFaceShare.putExtra(Intent.EXTRA_TEXT, "Teste from app");
-            startActivity(Intent.createChooser(iFaceShare, "Title for the dialog"));
-
-        }
-    }
-
-    public void startNorthenRiverBeachesActivity (View v){
-
-        Intent iActivty = new Intent (this, NorthenRiverBeaches.class);
-        startActivity(iActivty);
-    }
-
-    public void startCenterRiverBeachesActivity (View v){
-
-        Intent iActivty = new Intent (this, CenterRiverBeaches.class);
-        startActivity(iActivty);
-    }
-
-
-    public void startSouthRiverBeachesActivity(View v){
-
-        Intent iActivity = new Intent (this, SouthRiverBeaches.class);
-        startActivity(iActivity);
-
-    }
-
-    public void startAcoresRiverBeachesActivity(View v){
-        Intent iActivity = new Intent (this, AcoresRiverBeaches.class);
-        startActivity(iActivity);
-    }
-
-    public void startMadeiraRiverBeachesActivity(View v){
-        Intent iActivity = new Intent (this, MadeiraRiverBeaches.class);
-        startActivity(iActivity);
-    }
-
-    public void startHighlighsRivverBeachesActivity(View v){
-
-        Intent iActivity = new Intent(this, HighlightsRiverBeaches.class);
-        startActivity(iActivity);
     }
 
 

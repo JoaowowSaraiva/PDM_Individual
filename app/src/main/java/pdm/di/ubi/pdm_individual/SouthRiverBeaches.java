@@ -44,14 +44,20 @@ public class SouthRiverBeaches extends AppCompatActivity {
         setContentView(R.layout.srb_layout);
 
 
+        ConnectionDetector oCd = new ConnectionDetector(this);
+        if(oCd.isConnected()) {
+            oWV = (WebView) findViewById(R.id.wvMaps);
+            oWV.getSettings().setJavaScriptEnabled(true);
+            oWV.loadData("<iframe src=\"https://www.google.com/maps/d/embed?mid=1zPFE2SRYK14f_MiYj9zK9oLngzk\" width=\"640\" height=\"480\"></iframe>", "text/html", null);
+        }
+        else{
+            oWV = (WebView) findViewById(R.id.webView);
+            oWV.getSettings().setJavaScriptEnabled(true);
+            oWV.loadData("Sem connecção a Internet para exibir o mapa!", "text/plain", null);
+        }
 
-        oWV = (WebView) findViewById(R.id.wvMaps);
-        oWV.getSettings().setJavaScriptEnabled(true);
-        oWV.loadData("<iframe src=\"https://www.google.com/maps/d/embed?mid=1zPFE2SRYK14f_MiYj9zK9oLngzk\" width=\"640\" height=\"480\"></iframe>", "text/html", null);
 
-
-
-        eListView = (ExpandableListView) findViewById(R.id.expandlvNorte);
+        eListView = (ExpandableListView) findViewById(R.id.expandableListView);
         putInitData();
         oListAdapter = new ExpandableListAdapter(this,listDataHeader, listHashMap);
         eListView.setAdapter(oListAdapter);

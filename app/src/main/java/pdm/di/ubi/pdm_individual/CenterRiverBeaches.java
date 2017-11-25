@@ -46,11 +46,17 @@ public class CenterRiverBeaches extends AppCompatActivity {
         setContentView(R.layout.crb_layout);
 
 
-
-        oWV = (WebView) findViewById(R.id.webView);
-        oWV.getSettings().setJavaScriptEnabled(true);
-        oWV.loadData("<iframe src=\"https://www.google.com/maps/d/embed?mid=1D7X0gLTh1FBibYypH8VmJ5715f8\" width=\"640\" height=\"480\"></iframe>", "text/html", null);
-
+        ConnectionDetector oCd = new ConnectionDetector(this);
+        if(oCd.isConnected()) {
+            oWV = (WebView) findViewById(R.id.webView);
+            oWV.getSettings().setJavaScriptEnabled(true);
+            oWV.loadData("<iframe src=\"https://www.google.com/maps/d/embed?mid=1D7X0gLTh1FBibYypH8VmJ5715f8\" width=\"640\" height=\"480\"></iframe>", "text/html", null);
+        }
+        else{
+            oWV = (WebView) findViewById(R.id.webView);
+            oWV.getSettings().setJavaScriptEnabled(true);
+            oWV.loadData("Sem connecção a Internet para exibir o mapa!", "text/plain", null);
+        }
 
 
         eListView = (ExpandableListView) findViewById(R.id.expandableListView);
@@ -64,9 +70,7 @@ public class CenterRiverBeaches extends AppCompatActivity {
             public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id){
                 listDataHeader.get(groupPosition);
                 String x= oListAdapter.getChild(groupPosition, childPosition).toString();
-
                 Toast.makeText(CenterRiverBeaches.this, x, Toast.LENGTH_SHORT).show();
-
                 Intent iActvity = new Intent(getApplicationContext(), FullPostActivity.class);
                 iActvity.putExtra("title",x);
                 startActivity(iActvity);

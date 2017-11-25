@@ -147,37 +147,30 @@ public class DBAuxiliar extends SQLiteOpenHelper{
         return id;
     }
 
-/**
+
     //retorna os 10 posts mais recentes para mostrar na pagina inicial
-    public ArrayList<Posts> getLastestsPosts (){
-        ArrayList<Posts> aPost = new ArrayList<Posts>();
+    public ArrayList<String> getLastestsTitlePosts (){
+        ArrayList<String> aPostTitle = new ArrayList<String>();
         SQLiteDatabase oSQLiteDB = this.getReadableDatabase();
         Cursor oCursor = null;
 
-        oCursor = oSQLiteDB.rawQuery("SELECT *" + " FROM " + TABLE_POSTS + "LIMIT 10",null);
+        oCursor = oSQLiteDB.rawQuery("SELECT " +TITLE + " FROM " + TABLE_POSTS + " LIMIT 10",null);
         oCursor.moveToFirst();
-
-
-
+        System.out.println("COUNT: " +  oCursor.getCount());
 
         while(!oCursor.isAfterLast()){
-            Posts oPost=null;
+            String postTitle="";
 
-            oPost.setId(Integer.parseInt(oCursor.getString(0).toString()));
-            oPost.setContent(oCursor.getString(1).toString());
-            oPost.setTitle(oCursor.getString(2).toString());
-            oPost.setCoordinates(oCursor.getString(3).toString());
-            oPost.setCategorie(Integer.parseInt(oCursor.getString(4).toString()));
-
-            aPost.add(oPost);
+            postTitle = oCursor.getString(0).toString();
+            aPostTitle.add(postTitle);
 
             oCursor.moveToNext();
         }
 
-        System.out.println(aPost);
+        System.out.println(aPostTitle);
 
-        return aPost;
+        return aPostTitle;
     }
-**/
+
 
 }

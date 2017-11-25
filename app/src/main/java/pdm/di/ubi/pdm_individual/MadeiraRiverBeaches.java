@@ -34,17 +34,23 @@ public class MadeiraRiverBeaches extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.nrb_layout);
+        setContentView(R.layout.madeira_layout);
+
+        ConnectionDetector oCd = new ConnectionDetector(this);
+        if(oCd.isConnected()) {
+            oWV = (WebView) findViewById(R.id.webView);
+            oWV.getSettings().setJavaScriptEnabled(true);
+            oWV.loadData("<iframe src=\"https://www.google.com/maps/d/embed?mid=1edxKRfS97TXQcuX3eRY68JtVzwA\" width=\"640\" height=\"480\"></iframe>", "text/html", null);
+        }
+        else{
+            oWV = (WebView) findViewById(R.id.webView);
+            oWV.getSettings().setJavaScriptEnabled(true);
+            oWV.loadData("Sem connecção a Internet para exibir o mapa!", "text/plain", null);
+        }
 
 
 
-        oWV = (WebView) findViewById(R.id.wvMaps);
-        oWV.getSettings().setJavaScriptEnabled(true);
-        oWV.loadData("<iframe src=\"https://www.google.com/maps/d/embed?mid=1edxKRfS97TXQcuX3eRY68JtVzwA\" width=\"640\" height=\"480\"></iframe>", "text/html", null);
-
-
-
-        eListView = (ExpandableListView) findViewById(R.id.expandlvNorte);
+        eListView = (ExpandableListView) findViewById(R.id.expandableListView);
         putInitData();
         oListAdapter = new ExpandableListAdapter(this,listDataHeader, listHashMap);
         eListView.setAdapter(oListAdapter);

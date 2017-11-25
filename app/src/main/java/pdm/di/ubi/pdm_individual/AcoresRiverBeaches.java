@@ -36,17 +36,24 @@ public class AcoresRiverBeaches extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.nrb_layout);
+        setContentView(R.layout.acores_layout);
 
 
+        ConnectionDetector oCd = new ConnectionDetector(this);
 
-        oWV = (WebView) findViewById(R.id.wvMaps);
-        oWV.getSettings().setJavaScriptEnabled(true);
-        oWV.loadData("<iframe src=\"https://www.google.com/maps/d/embed?mid=1t4rWuZzPAElOAYuhd-BaEy6f3tQ\" width=\"640\" height=\"480\"></iframe>", "text/html", null);
+        if(oCd.isConnected()) {
+            oWV = (WebView) findViewById(R.id.wvMaps);
+            oWV.getSettings().setJavaScriptEnabled(true);
+            oWV.loadData("<iframe src=\"https://www.google.com/maps/d/embed?mid=1t4rWuZzPAElOAYuhd-BaEy6f3tQ\" width=\"640\" height=\"480\"></iframe>", "text/html", null);
+        }
+        else{
+            oWV = (WebView) findViewById(R.id.wvMaps);
+            oWV.getSettings().setJavaScriptEnabled(true);
+            oWV.loadData("Sem connecção a Internet para exibir o mapa!", "text/plain", null);
+        }
 
 
-
-        eListView = (ExpandableListView) findViewById(R.id.expandlvNorte);
+        eListView = (ExpandableListView) findViewById(R.id.expandableListView);
         putInitData();
         oListAdapter = new ExpandableListAdapter(this,listDataHeader, listHashMap);
         eListView.setAdapter(oListAdapter);

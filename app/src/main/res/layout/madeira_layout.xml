@@ -15,7 +15,7 @@
             android:layout_marginEnd="55dp"
             android:layout_marginStart="55dp"
             android:gravity="center"
-            android:text="Praias Fluviais Centro"
+            android:text="@string/Madeira"
             android:textColor="@color/colorPrimary"
             android:textSize="25dp"
             android:textStyle="bold"
@@ -41,7 +41,7 @@
             android:layout_marginEnd="13dp"
             android:layout_marginStart="13dp"
             android:gravity="center"
-            android:text="@string/crb_comment"
+            android:text="@string/madeira_comment"
             tools:layout_constraintLeft_creator="1"
             tools:layout_constraintRight_creator="1"
             tools:layout_constraintTop_creator="1"
@@ -58,7 +58,7 @@
 
 
         <WebView
-            android:id="@+id/wvMaps"
+            android:id="@+id/webView"
             android:layout_width="368dp"
             android:layout_height="236dp"
             android:layout_marginBottom="8dp"
