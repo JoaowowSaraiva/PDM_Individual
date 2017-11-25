@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +26,7 @@ public class FullPostActivity extends AppCompatActivity {
 
     TextView oTVTitle;
     TextView oTVContent;
-    Button oButtonCoordinates;
+    ImageButton oButtonCoordinates;
     DBAuxiliar oDBAux;
     SQLiteDatabase oSQLiteDB;
 
@@ -42,7 +43,7 @@ public class FullPostActivity extends AppCompatActivity {
 
         oTVTitle = (TextView) findViewById(R.id.tvTitle);
         oTVContent = (TextView) findViewById(R.id.tvContent);
-        oButtonCoordinates = (Button) findViewById(R.id.bCoordinates);
+        oButtonCoordinates = (ImageButton) findViewById(R.id.bCoordinates);
 
 
         Intent iCameFromActivity1 = getIntent();
@@ -53,6 +54,7 @@ public class FullPostActivity extends AppCompatActivity {
         id = iCameFromFillPost.getIntExtra("String1", 0);
         Cursor oCursor= null;
 
+        //fazer esta função no DBAux
         oCursor = oSQLiteDB.rawQuery(" SELECT *" + " FROM " + oDBAux.TABLE_POSTS + " WHERE " + "'" + title_app +"'" + "=" + oDBAux.TITLE, null);
         oCursor.moveToFirst();
 
@@ -67,6 +69,7 @@ public class FullPostActivity extends AppCompatActivity {
 
             final Cursor finalOCursor = oCursor;
             final int finalCoordinates = coordinates;
+
             oButtonCoordinates.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

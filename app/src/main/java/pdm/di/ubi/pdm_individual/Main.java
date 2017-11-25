@@ -121,16 +121,6 @@ public class Main extends AppCompatActivity {
 
     }
 
-
-
-
-    public void startFacebookIntent(View v) {
-        String url="https://www.facebook.com/pequenosparaisospt/";
-        Intent iActvity = new Intent(Intent.ACTION_VIEW);
-        iActvity.setData(Uri.parse(url));
-        startActivity(iActvity);
-    }
-
     public static Intent getOpenFacebookIntent(PackageManager pm, String url) {
         Uri uri = Uri.parse(url);
 
