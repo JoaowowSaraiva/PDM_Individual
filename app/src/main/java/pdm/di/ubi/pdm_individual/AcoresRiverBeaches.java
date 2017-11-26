@@ -1,6 +1,5 @@
 package pdm.di.ubi.pdm_individual;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
+ * Class que trata das praias com categoria 25
  * Ilha de são miguel:25
  */
 
