@@ -43,12 +43,7 @@ public class DBAuxiliar extends SQLiteOpenHelper{
             IMG + " BLOB, " +
             EXCERPT + " TEXT, " +
             DATE + " TEXT );" ;
-/**
-    protected static final String AUX_CREATE_TABLE = "" +
-            "CREATE TABLE " + TABLE_AUX + " (" +
-            ID_TABELA + " INT PRIMARY KEY, " +
-            JSON_SIZE + " INT );";
-**/
+
 
     DBAuxiliar(Context context){
           super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -58,7 +53,6 @@ public class DBAuxiliar extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(POSTS_CREATE_TABLE);
-        //db.execSQL(AUX_CREATE_TABLE);
     }
 
     @Override
@@ -71,7 +65,7 @@ public class DBAuxiliar extends SQLiteOpenHelper{
         System.out.println("WE ARRIVED insertArrayPosts");
         SQLiteDatabase oSQLiteDB = this.getWritableDatabase();
 
-        for(int i =0; i<oPosts.size();i++){//COMO TESTAR SE ELE TA A INSERIR BEM OU N?
+        for(int i =0; i<oPosts.size();i++){
             ContentValues oCValues = new ContentValues();
                 if(this.checkExistsPost(oPosts.get(i).getId())==true)
                     continue;
@@ -86,10 +80,15 @@ public class DBAuxiliar extends SQLiteOpenHelper{
 
             long flag=0;
            flag = oSQLiteDB.insert(TABLE_POSTS, null, oCValues);
-                if(flag==-1)
+                if(flag==-1) {
+                   // SQLiteOpenHelper:close();
+                   // oSQLiteDB.close();
                     return false;
+                }
         }
 
+       // oSQLiteDB.close();
+        //SQLiteOpenHelper:close();
         return true;
     }
 
@@ -97,20 +96,24 @@ public class DBAuxiliar extends SQLiteOpenHelper{
     //false = n existe
    public boolean checkExistsPost (int id){
 
-        SQLiteDatabase oSQLiteDB = this.getWritableDatabase();//n devia ser Readable?
+        SQLiteDatabase oSQLiteDB = this.getReadableDatabase();
         Cursor oCursor = null;
         oCursor = oSQLiteDB.rawQuery("SELECT *"  + " FROM " + TABLE_POSTS + " WHERE " + id + "=" + IDPOST, null);
         oCursor.moveToFirst();
 
         int a = oCursor.getCount();
 
-        if(a>0)
+        if(a>0) {
+            //oSQLiteDB.close();
+            //SQLiteOpenHelper:close();
             return true;
-
+        }
+       //oSQLiteDB.close();
+       //SQLiteOpenHelper:close();
         return false;
     }
 
-
+    //funcao que retorna os titulos de uma categoria
     public ArrayList<String> getTitlesFromCategorieandTitle( int id){
         ArrayList result = new ArrayList<String>();
 
@@ -127,11 +130,12 @@ public class DBAuxiliar extends SQLiteOpenHelper{
             oCursor.moveToNext();
         }
 
-
+       // oSQLiteDB.close();
+       // SQLiteOpenHelper:close();
         return result;
     }
 
-
+    //funcao que poderá ser usada para a parte das img (not used yet)
     public int getIdPostFromTitle(String title){
         int id =0;
 
@@ -143,6 +147,8 @@ public class DBAuxiliar extends SQLiteOpenHelper{
 
         id = Integer.parseInt(oCursor.getString(0).toString());
 
+       // oSQLiteDB.close();
+       // SQLiteOpenHelper:close();
 
         return id;
     }
@@ -156,7 +162,6 @@ public class DBAuxiliar extends SQLiteOpenHelper{
 
         oCursor = oSQLiteDB.rawQuery("SELECT " +TITLE + " FROM " + TABLE_POSTS + " LIMIT 10",null);
         oCursor.moveToFirst();
-        System.out.println("COUNT: " +  oCursor.getCount());
 
         while(!oCursor.isAfterLast()){
             String postTitle="";
@@ -166,9 +171,8 @@ public class DBAuxiliar extends SQLiteOpenHelper{
 
             oCursor.moveToNext();
         }
-
-        System.out.println(aPostTitle);
-
+        //SQLiteOpenHelper:close();
+        //oSQLiteDB.close();
         return aPostTitle;
     }
 

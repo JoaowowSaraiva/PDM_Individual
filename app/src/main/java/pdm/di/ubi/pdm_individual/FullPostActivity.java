@@ -29,6 +29,8 @@ public class FullPostActivity extends AppCompatActivity {
     ImageButton oButtonCoordinates;
     DBAuxiliar oDBAux;
     SQLiteDatabase oSQLiteDB;
+    String titleForIntent="";
+    String ContentForIntent="";
 
     @Override
     public void onCreate (Bundle savedInstanceState) {
@@ -63,13 +65,16 @@ public class FullPostActivity extends AppCompatActivity {
         content = oCursor.getColumnIndex(oDBAux.CONTENT);
         coordinates = oCursor.getColumnIndex(oDBAux.COORDINATES);
 
+        titleForIntent=oCursor.getString(title).toString();
+        ContentForIntent=oCursor.getString(content).toString();
+
         oTVTitle.setText(oCursor.getString(title).toString());
         oTVContent.setText(oCursor.getString(content).toString());
 
 
             final Cursor finalOCursor = oCursor;
             final int finalCoordinates = coordinates;
-
+        oSQLiteDB.close();
             oButtonCoordinates.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -85,7 +90,18 @@ public class FullPostActivity extends AppCompatActivity {
                 }
 
             });
+
+
         }
+
+   public void startFaceShare(View v){
+
+       Intent intent = new Intent(Intent.ACTION_SEND);
+       intent.setType("text/plain");
+       intent.putExtra(Intent.EXTRA_TEXT, titleForIntent + '\n' + ContentForIntent);
+       startActivity(Intent.createChooser(intent, ""));
+
+   }
 
 
     @Override

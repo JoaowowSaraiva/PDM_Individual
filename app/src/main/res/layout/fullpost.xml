@@ -48,23 +48,39 @@
             app:srcCompat="@drawable/gps"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="8dp"
-            app:layout_constraintVertical_bias="0.991"
-            app:layout_constraintHorizontal_bias="0.027" />
+            app:layout_constraintVertical_bias="0.989"
+            app:layout_constraintHorizontal_bias="0.082" />
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:onClick="startFaceShare"
+            android:layout_width="156dp"
+            android:layout_height="37dp"
+            app:srcCompat="@drawable/faceshare"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.764" />
 
         <ScrollView
-            android:layout_width="377dp"
-            android:layout_height="367dp"
+            android:id="@+id/scrollView2"
+            android:layout_width="356dp"
+            android:layout_height="380dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="81dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintHorizontal_bias="0.523"
-            android:id="@+id/scrollView2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="8dp"
-            tools:layout_editor_absoluteX="4dp">
+            app:layout_constraintVertical_bias="0.0">
 
 
             <TextView
@@ -76,12 +92,14 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp"
                 android:text=""
+                android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/bCoordinates"
                 app:layout_constraintHorizontal_bias="0.506"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"
                 app:layout_constraintVertical_bias="0.141" />
+
         </ScrollView>
 
     </android.support.constraint.ConstraintLayout>

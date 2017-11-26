@@ -297,7 +297,7 @@ public class Main extends AppCompatActivity {
                 Aux aux2 = new Aux();
 
 
-                //fazer a verificação de posts novos. Secalhar até ja esta! xD
+                //Re lê os posts se encontrar algum novo vai add e ignora os velhos
                 for(int i=0; i<jsonArray.length(); i++) {
                     Posts oPosts = new Posts();
                     JSONObject oJsonObject = jsonArray.getJSONObject(i);
@@ -327,7 +327,7 @@ public class Main extends AppCompatActivity {
                     content = oParsing.parseContent(content);
                     date = oParsing.parseDate(date);
                     excerpt = oParsing.parseExcerpt(excerpt);
-                    title = title.replace("&#8211;", "-"); //testing
+                    title = title.replace("&#8211;", "-");
 
                     oPosts.setCategorie(categories);
                     oPosts.setContent(content);
@@ -345,12 +345,8 @@ public class Main extends AppCompatActivity {
                     if(b==false)
                         System.out.println("Erro Insert");
                     y++;
-                    System.out.println(content);
-                }
 
-              //  System.out.println("URLCOORDENADAS: " + coordinatesURL);
-              //  System.out.println(aPosts.toString())
-                System.out.println("Yaqui:fim " + y);
+                }
 
 
                 return aPosts;
@@ -381,7 +377,6 @@ public class Main extends AppCompatActivity {
             return null;
 
         }
-        //ja n devo precisar disto
         @Override
         protected void onPostExecute(ArrayList<Posts> result) {
             super.onPostExecute(result);
@@ -390,13 +385,12 @@ public class Main extends AppCompatActivity {
             boolean flag=false;
 
 
-            System.out.println("EXECUTING onPostExecute!");
             flag = oDBAux.insertArrayPosts(result);
-            System.out.println("LEAVEVING FUNC");
+
             if(flag == true)
-                System.out.println("A MIRACLE HAPPENNED!!!!");
+                System.out.println("All fine");
             if(flag== false)
-                System.out.println("Works fine (crash!)");
+                System.out.println("crash!");
         }
 
 /**

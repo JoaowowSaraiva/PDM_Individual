@@ -74,13 +74,15 @@ public class NorthenRiverBeaches extends AppCompatActivity {
 
             @Override
             public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id){
-                String teste20 = String.valueOf(parent.getItemAtPosition(groupPosition));
 
                 listDataHeader.get(groupPosition);
 
                 String x= oListAdapter.getChild(groupPosition, childPosition).toString();
 
-                //String title = String.valueOf(adapterView.getItemAtPosition(i));
+                Intent iActvity = new Intent(getApplicationContext(), FullPostActivity.class);
+                iActvity.putExtra("title",x);
+                startActivity(iActvity);
+
                 Toast.makeText(NorthenRiverBeaches.this, x, Toast.LENGTH_SHORT).show();
                 return true;
 

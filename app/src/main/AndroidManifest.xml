@@ -25,7 +25,7 @@
 
         <activity android:name=".FullPostActivity"/>
 
-        <activity android:name=".Postdisplay"/>.
+        .
         <activity android:name=".NorthenRiverBeaches"
             android:parentActivityName=".Main"
             />
