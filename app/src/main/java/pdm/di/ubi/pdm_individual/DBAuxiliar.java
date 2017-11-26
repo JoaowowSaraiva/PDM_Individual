@@ -60,9 +60,9 @@ public class DBAuxiliar extends SQLiteOpenHelper{
 
     }
 
-    //inserir na db este array de posts
+    //inserir na db um array de posts com toa a sua informação
     boolean insertArrayPosts (ArrayList<Posts> oPosts){
-        System.out.println("WE ARRIVED insertArrayPosts");
+
         SQLiteDatabase oSQLiteDB = this.getWritableDatabase();
 
         for(int i =0; i<oPosts.size();i++){
@@ -94,6 +94,7 @@ public class DBAuxiliar extends SQLiteOpenHelper{
 
     //true = existe post
     //false = n existe
+    //funcao q verifica a existencia de um post com um determinado ID
    public boolean checkExistsPost (int id){
 
         SQLiteDatabase oSQLiteDB = this.getReadableDatabase();
@@ -114,6 +115,7 @@ public class DBAuxiliar extends SQLiteOpenHelper{
     }
 
     //funcao que retorna os titulos de uma categoria
+    //mudar nome para getTitlesFromCategorie
     public ArrayList<String> getTitlesFromCategorieandTitle( int id){
         ArrayList result = new ArrayList<String>();
 

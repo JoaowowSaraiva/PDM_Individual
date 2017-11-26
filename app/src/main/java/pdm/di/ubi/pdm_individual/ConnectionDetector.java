@@ -5,6 +5,11 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+/**
+ *
+ * Class que testa a connecção da app a internet
+ */
+
 public class ConnectionDetector {
 
     Context context;

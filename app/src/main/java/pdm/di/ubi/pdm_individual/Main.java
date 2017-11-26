@@ -18,23 +18,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.view.menu.ActionMenuItemView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import junit.framework.Test;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -88,7 +84,6 @@ public class Main extends AppCompatActivity {
 
 
 
-        System.out.println(titles);
         itemAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, titles);
 
         oLV.setAdapter(itemAdapter);
@@ -112,7 +107,6 @@ public class Main extends AppCompatActivity {
 
         //check connection teste
         oCd = new ConnectionDetector(this);
-
         //como fazer o else?
           if(oCd.isConnected())
            new JSONTask().execute("http://www.praiafluvial.pt/wp-json/wp/v2/posts?per_page=100&filter[orderby]=date&order=desc");
@@ -158,6 +152,7 @@ public class Main extends AppCompatActivity {
 
     }
 
+    //abre o intent para abrir o canal de youtube do site, se ñ existir a app abre no browser
     public void startYoutube(View v){
         String url = "https://www.youtube.com/channel/UCFddNBlKlyYfpSj_YgDwjFw";
 
@@ -175,8 +170,8 @@ public class Main extends AppCompatActivity {
 
     }
 
+    //começa a activity para enviar um email, se não existir nenhuma app q consiga resolver este intent envia um toast ao user
     public void startSendMail (View v){
-
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("message/rfc822");
         i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"praiasfluviaispt@gmail.com"});
@@ -190,58 +185,50 @@ public class Main extends AppCompatActivity {
 
     }
 
-
+/** nav menu **/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.navigation_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
-
+    /** nav menu operaçoes **/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
 
             case R.id.Home: {
-                Toast.makeText(this, "Primeiro Item", Toast.LENGTH_SHORT).show();
                 Intent iActivity1 = new Intent(getApplicationContext(), Main.class);
                 startActivity(iActivity1);
                 return true;
             }
             case R.id.PraiasFluviaisNorte: {
-                Toast.makeText(this, "Segundo Item", Toast.LENGTH_SHORT).show();
                 Intent iActivity2 = new Intent(getApplicationContext(), NorthenRiverBeaches.class);
                 startActivity(iActivity2);
                 return true;
             }
             case R.id.PraiasFluviaisCentro: {
-                Toast.makeText(this, "PraiasCentro", Toast.LENGTH_SHORT).show();
                 Intent iActvity3 = new Intent(getApplicationContext(), CenterRiverBeaches.class);
                 startActivity(iActvity3);
                 return true;
             }
-            case R.id.PraiasFluviaisSul: {
-                Toast.makeText(this, "PraiaSul", Toast.LENGTH_SHORT).show();
+            case R.id.PraiasFluviaisSul: {;
                 Intent iActvity4 = new Intent(getApplicationContext(), SouthRiverBeaches.class);
                 startActivity(iActvity4);
                 return true;
             }
             case R.id.Acores: {
-                Toast.makeText(this, "Acores", Toast.LENGTH_SHORT).show();
                 Intent iActvity5 = new Intent(getApplicationContext(), AcoresRiverBeaches.class);
                 startActivity(iActvity5);
                 return true;
             }
             case R.id.Madeira: {
-                Toast.makeText(this, "Madeira", Toast.LENGTH_SHORT).show();
                 Intent iActvity6 = new Intent(getApplicationContext(), MadeiraRiverBeaches.class);
                 startActivity(iActvity6);
                 return true;
             }
             case R.id.Destaques: {
-                Toast.makeText(this, "PraiaSul", Toast.LENGTH_SHORT).show();
                 Intent iActvity7 = new Intent(getApplicationContext(), HighlightsRiverBeaches.class);
                 startActivity(iActvity7);
                 return true;
@@ -249,12 +236,12 @@ public class Main extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
 
+    //Uma das classes mais fundamentais desta app
+    //TaskAsyncrona para tratar da url que contem as informações do site em formato Json, esta thread recebe uma string e devolve um Array de Posts
     class JSONTask extends AsyncTask<String, String, ArrayList<Posts> >{
-
 
         ArrayList<Posts> aPosts = new ArrayList<Posts>();
 
@@ -270,7 +257,6 @@ public class Main extends AppCompatActivity {
                 connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
 
-
                 InputStream stream = connection.getInputStream();
 
                 reader = new BufferedReader(new InputStreamReader(stream));
@@ -284,20 +270,17 @@ public class Main extends AppCompatActivity {
 
 
                 /**
-                 *
                  *  Falta tratar das img e dos videos!
                  */
                 JSONArray jsonArray = new JSONArray(buffer.toString());
                 String jsonArraySize="";
                 jsonArraySize = String.valueOf(jsonArray.length());
 
-                int x = 0;
-                int y=0;
                 String coordinatesURL ="";
                 Aux aux2 = new Aux();
 
 
-                //Re lê os posts se encontrar algum novo vai add e ignora os velhos
+                //lê ou Re lê os posts se encontrar algum novo vai add e ignora os velhos
                 for(int i=0; i<jsonArray.length(); i++) {
                     Posts oPosts = new Posts();
                     JSONObject oJsonObject = jsonArray.getJSONObject(i);
@@ -315,7 +298,6 @@ public class Main extends AppCompatActivity {
 
                     JSONObject oJsonExcerpt = oJsonObject.getJSONObject("excerpt");
                     String excerpt = oJsonExcerpt.getString("rendered");
-
 
                     JSONArray oJsonArrayCategories = oJsonObject.getJSONArray("categories");
                     int categories = oJsonArrayCategories.getInt(0);
@@ -343,8 +325,8 @@ public class Main extends AppCompatActivity {
                         b = aPosts.add(oPosts);
 
                     if(b==false)
-                        System.out.println("Erro Insert");
-                    y++;
+                        Log.e("ERROR:", "INSERT POST FAILED!");
+
 
                 }
 
@@ -381,16 +363,14 @@ public class Main extends AppCompatActivity {
         protected void onPostExecute(ArrayList<Posts> result) {
             super.onPostExecute(result);
 
-
             boolean flag=false;
-
 
             flag = oDBAux.insertArrayPosts(result);
 
             if(flag == true)
-                System.out.println("All fine");
+                Log.i("Check", "All post inserted");
             if(flag== false)
-                System.out.println("crash!");
+                Log.e("Error", "Probably missing internet connecting!");
         }
 
 /**
@@ -409,18 +389,10 @@ public class Main extends AppCompatActivity {
             while ((current = bis.read()) != -1) {
                 //baf.append((byte) current);
                 baf.write(data, 0, current);
-
             }
-
             return baf.toByteArray();
-
-
-
-
         }
-
 **/
     }
-
 }
 

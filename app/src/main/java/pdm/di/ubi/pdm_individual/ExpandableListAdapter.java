@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by saraiva on 23-11-2017.
+ * Class que trata dos items da Expandable List View!
  */
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
@@ -45,7 +45,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
 
-    //o i = group position o i1=item position
+    //i = group position o i1=item position
     //parabens a quem deu o nome a estas variaveis ***clap clap***
     @Override
     public Object getChild(int i, int i1) {

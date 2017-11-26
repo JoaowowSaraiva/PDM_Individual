@@ -53,7 +53,7 @@
 
         <ImageButton
             android:id="@+id/imageButton"
-            android:onClick="startFaceShare"
+            android:onClick="startShareActivity"
             android:layout_width="156dp"
             android:layout_height="37dp"
             app:srcCompat="@drawable/faceshare"
