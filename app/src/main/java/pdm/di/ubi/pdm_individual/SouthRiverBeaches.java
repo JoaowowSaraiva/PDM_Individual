@@ -1,6 +1,5 @@
 package pdm.di.ubi.pdm_individual;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 /**Categorias:
  * BEJA:17
@@ -25,7 +23,6 @@ import java.util.Set;
  */
 
 public class SouthRiverBeaches extends AppCompatActivity {
-
 
 
     private WebView oWV;
@@ -147,7 +144,6 @@ public class SouthRiverBeaches extends AppCompatActivity {
     }
 
 
-
     public void putInitData(){
         listDataHeader = new ArrayList<>();
         listHashMap = new HashMap<>();
@@ -166,15 +162,10 @@ public class SouthRiverBeaches extends AppCompatActivity {
 
         List<String> Setubal = oDBAux.getTitlesFromCategorieandTitle(32);
 
-
-
         listHashMap.put(listDataHeader.get(0), Beja);
         listHashMap.put(listDataHeader.get(1), Evora);
         listHashMap.put(listDataHeader.get(2), Faro);
         listHashMap.put(listDataHeader.get(3), Setubal);
-
-
-
 
     }
 
