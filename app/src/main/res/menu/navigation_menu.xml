@@ -28,6 +28,8 @@
     <item android:id="@+id/Destaques"
         android:title="@string/Destaques"
         />
+    <item android:id="@+id/Exit"
+        android:title="EXIT" />
 
 
 </menu>

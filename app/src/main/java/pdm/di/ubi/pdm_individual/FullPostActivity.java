@@ -153,6 +153,12 @@ public class FullPostActivity extends AppCompatActivity {
                 startActivity(iActvity7);
                 return true;
             }
+            case R.id.Exit:{
+                Intent iActivity8 = new Intent(Intent.ACTION_MAIN);
+                iActivity8.addCategory(Intent.CATEGORY_HOME);
+                iActivity8.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(iActivity8);
+            }
             default:
                 return super.onOptionsItemSelected(item);
         }

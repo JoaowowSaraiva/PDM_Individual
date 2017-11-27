@@ -233,6 +233,9 @@ public class Main extends AppCompatActivity {
                 startActivity(iActvity7);
                 return true;
             }
+            case R.id.Exit:{
+                finish();
+            }
             default:
                 return super.onOptionsItemSelected(item);
         }
