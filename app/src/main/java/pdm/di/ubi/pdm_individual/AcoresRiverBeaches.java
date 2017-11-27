@@ -139,13 +139,14 @@ public class AcoresRiverBeaches extends AppCompatActivity {
         }
 
     }
-
+//funcao que preenche as listas com os dados
     public void putInitData(){
         listDataHeader = new ArrayList<>();
         listHashMap = new HashMap<>();
 
         listDataHeader.add("Ilha de São Miguel");
 
+        //funcao que devolve os titulos da cat 25
         List<String> IlhadeSaoMiguel = oDBAux.getTitlesFromCategorieandTitle(25);
         listHashMap.put(listDataHeader.get(0), IlhadeSaoMiguel);
     }

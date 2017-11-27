@@ -84,6 +84,7 @@ public class Aux {
         xpp.setInput(new StringReader(excerpt));
         int eventType = xpp.getEventType();
         String excerpt_result = new String();
+
         //parsing das tags html
         while (eventType != XmlPullParser.END_DOCUMENT) {
             if (eventType == XmlPullParser.TEXT) {

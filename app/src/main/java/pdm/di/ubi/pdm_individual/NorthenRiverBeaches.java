@@ -1,9 +1,7 @@
 package pdm.di.ubi.pdm_individual;
 
-import android.app.Activity;
+
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -12,8 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -40,7 +36,6 @@ public class NorthenRiverBeaches extends AppCompatActivity {
     private List<String> listDataHeader;
     private HashMap<String, List<String>> listHashMap;
     private DBAuxiliar oDBAux= new DBAuxiliar(this);
-    private SQLiteDatabase oSQLiteDB;
 
 
 

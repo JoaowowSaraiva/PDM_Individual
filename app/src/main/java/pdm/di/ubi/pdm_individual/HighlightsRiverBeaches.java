@@ -46,6 +46,7 @@ public class HighlightsRiverBeaches extends AppCompatActivity {
             @Override
             public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id){
                 listDataHeader.get(groupPosition);
+                //x = ao titulo
                 String x= oListAdapter.getChild(groupPosition, childPosition).toString();
 
                 Toast.makeText(HighlightsRiverBeaches.this, x, Toast.LENGTH_SHORT).show();

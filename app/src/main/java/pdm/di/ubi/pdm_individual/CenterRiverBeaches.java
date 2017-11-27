@@ -1,6 +1,5 @@
 package pdm.di.ubi.pdm_individual;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -144,7 +143,7 @@ public class CenterRiverBeaches extends AppCompatActivity {
     }
 
 
-
+//funcao que preenche os dados das listas para todas as categorias desta class
     public void putInitData(){
         listDataHeader = new ArrayList<>();
         listHashMap = new HashMap<>();

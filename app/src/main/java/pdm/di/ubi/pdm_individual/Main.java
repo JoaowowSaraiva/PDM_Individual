@@ -46,11 +46,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Main extends AppCompatActivity {
-//https://www.youtube.com/watch?v=j-3L3CgYXkU
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToogle;
@@ -255,7 +253,7 @@ public class Main extends AppCompatActivity {
             BufferedReader reader = null;
 
             try {
-
+                //leitura da info vinda do URL passado em parametro
                 URL url = new URL(params[0]);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.connect();

@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.sql.Blob;
+//import java.sql.Blob;
 import java.util.ArrayList;
 
 public class DBAuxiliar extends SQLiteOpenHelper{
@@ -27,7 +27,7 @@ public class DBAuxiliar extends SQLiteOpenHelper{
     //protected static final Blob COLUMN5 = null;
 
 
-    //tabela auxiliar
+    //tabela auxiliar que não chegou a ser usada no ambito deste projeto
     protected static final String TABLE_AUX = " TabelaAuxiliar ";
     protected static final String ID_TABELA = "Id";
     protected static final String JSON_SIZE = "Jsonsize";

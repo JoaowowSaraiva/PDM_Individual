@@ -85,7 +85,7 @@ public class FullPostActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                     else {
-                        Toast.makeText(FullPostActivity.this, "Ainda não temos coordenadas para este local!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FullPostActivity.this, "Ainda não temos coordenadas para este local!", Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -104,7 +104,7 @@ public class FullPostActivity extends AppCompatActivity {
 
    }
 
-
+//nav bar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -112,7 +112,7 @@ public class FullPostActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-
+//nav bar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
