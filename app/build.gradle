@@ -5,8 +5,8 @@ android {
     buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "pdm.di.ubi.pdm_individual"
-        minSdkVersion 21
-        targetSdkVersion 21
+        minSdkVersion 20
+        targetSdkVersion 20
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
