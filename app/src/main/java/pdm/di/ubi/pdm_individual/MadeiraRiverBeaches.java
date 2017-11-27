@@ -59,12 +59,12 @@ public class MadeiraRiverBeaches extends AppCompatActivity {
             @Override
             public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id){
                 listDataHeader.get(groupPosition);
-                String x= oListAdapter.getChild(groupPosition, childPosition).toString();
+                String stringTitle= oListAdapter.getChild(groupPosition, childPosition).toString();
 
-                Toast.makeText(MadeiraRiverBeaches.this, x, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MadeiraRiverBeaches.this, stringTitle, Toast.LENGTH_SHORT).show();
 
                 Intent iActvity = new Intent(getApplicationContext(), FullPostActivity.class);
-                iActvity.putExtra("title",x);
+                iActvity.putExtra("title",stringTitle);
                 startActivity(iActvity);
 
                 return true;

@@ -72,13 +72,13 @@ public class NorthenRiverBeaches extends AppCompatActivity {
 
                 listDataHeader.get(groupPosition);
 
-                String x= oListAdapter.getChild(groupPosition, childPosition).toString();
+                String stringTitle= oListAdapter.getChild(groupPosition, childPosition).toString();
 
                 Intent iActvity = new Intent(getApplicationContext(), FullPostActivity.class);
-                iActvity.putExtra("title",x);
+                iActvity.putExtra("title",stringTitle);
                 startActivity(iActvity);
 
-                Toast.makeText(NorthenRiverBeaches.this, x, Toast.LENGTH_SHORT).show();
+                Toast.makeText(NorthenRiverBeaches.this, stringTitle, Toast.LENGTH_SHORT).show();
                 return true;
 
             }

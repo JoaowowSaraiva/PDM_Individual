@@ -68,10 +68,10 @@ public class CenterRiverBeaches extends AppCompatActivity {
             @Override
             public boolean onChildClick (ExpandableListView parent, View v, int groupPosition, int childPosition, long id){
                 listDataHeader.get(groupPosition);
-                String x= oListAdapter.getChild(groupPosition, childPosition).toString();
-                Toast.makeText(CenterRiverBeaches.this, x, Toast.LENGTH_SHORT).show();
+                String stringTitle= oListAdapter.getChild(groupPosition, childPosition).toString();
+                Toast.makeText(CenterRiverBeaches.this, stringTitle, Toast.LENGTH_SHORT).show();
                 Intent iActvity = new Intent(getApplicationContext(), FullPostActivity.class);
-                iActvity.putExtra("title",x);
+                iActvity.putExtra("title",stringTitle);
                 startActivity(iActvity);
 
                 return true;
